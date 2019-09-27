@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/id_home"
+        android:enabled="true"
+        android:icon="@drawable/ic_home"
+        android:title="Home"
+        android:visible="true"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id = "@+id/id_search"
+        android:enabled = "true"
+        android:icon="@drawable/ic_search"
+        android:title="Search"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id = "@+id/id_favevents"
+        android:enabled = "true"
+        android:icon="@drawable/ic_favevents"
+        android:title="Bookings"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id = "@+id/id_usr"
+        android:enabled = "true"
+        android:icon="@drawable/ic_usr"
+        android:title="Profile"
+        app:showAsAction="ifRoom"/>
+</menu>

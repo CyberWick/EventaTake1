@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".regEvent">
+
+    <Button
+        android:id="@+id/addevent"
+        android:layout_width="140dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="162dp"
+        android:layout_marginTop="88dp"
+        android:layout_marginEnd="162dp"
+        android:background="@android:color/holo_green_light"
+        android:text="ADD EVENTS"
+        android:textColor="@color/common_google_signin_btn_text_dark_default"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.509"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gaming" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="413dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="65dp"
+        android:text="           SELECT CATEGORY"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/descrip" />
+
+    <Button
+        android:id="@+id/choose"
+        android:layout_width="136dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="4dp"
+        android:text="CHOOSE"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/seminar" />
+
+    <Button
+        android:id="@+id/upload"
+        android:layout_width="136dp"
+        android:layout_height="38dp"
+        android:text="UPLOAD"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gaming" />
+
+    <CheckBox
+        android:id="@+id/tech"
+        android:layout_width="146dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="15dp"
+        android:text="Technical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button" />
+
+    <CheckBox
+        android:id="@+id/workshops"
+        android:layout_width="146dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="220dp"
+        android:layout_marginTop="14dp"
+        android:text="Workshops"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cultural" />
+
+    <CheckBox
+        android:id="@+id/gaming"
+        android:layout_width="146dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="220dp"
+        android:layout_marginTop="10dp"
+        android:text="Gaming"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/workshops" />
+
+    <CheckBox
+        android:id="@+id/seminar"
+        android:layout_width="146dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="10dp"
+        android:text="Seminar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sports" />
+
+    <CheckBox
+        android:id="@+id/sports"
+        android:layout_width="146dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="13dp"
+        android:text="Sports"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tech" />
+
+    <CheckBox
+        android:id="@+id/cultural"
+        android:layout_width="146dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="220dp"
+        android:layout_marginTop="14dp"
+        android:text="Cultural"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button" />
+
+    <EditText
+        android:id="@+id/college"
+        android:layout_width="410dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="6dp"
+        android:ems="10"
+        android:hint="Enter College Name"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <EditText
+        android:id="@+id/eventname"
+        android:layout_width="410dp"
+        android:layout_height="56dp"
+        android:ems="10"
+        android:hint="Enter Event Name"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/college" />
+
+    <EditText
+        android:id="@+id/descrip"
+        android:layout_width="410dp"
+        android:layout_height="65dp"
+        android:ems="10"
+        android:hint="Enter Description of Event"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/contact" />
+
+    <EditText
+        android:id="@+id/date"
+        android:layout_width="138dp"
+        android:layout_height="39dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="11dp"
+        android:elevation="2dp"
+        android:focusable="false"
+        android:hint="Start Date"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/choose" />
+
+    <EditText
+        android:id="@+id/enddate"
+        android:layout_width="138dp"
+        android:layout_height="39dp"
+        android:layout_marginTop="46dp"
+        android:elevation="2dp"
+        android:focusable="false"
+        android:hint="End Date"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gaming" />
+
+    <EditText
+        android:id="@+id/contact"
+        android:layout_width="410dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="2dp"
+        android:ems="10"
+        android:maxLength="10"
+        android:hint="Enter Valid Paytm Mobile Number"
+        android:inputType="phone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/eventname" />
+
+    <ImageView
+        android:id="@+id/imgView"
+        android:layout_width="66dp"
+        android:layout_height="33dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="172dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/seminar" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="413dp"
+        android:layout_height="30dp"
+        android:background="@android:color/holo_green_light"
+        android:text="             REGISTER AN EVENT"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

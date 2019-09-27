@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Profile">
+
+    <Button
+        android:id="@+id/profile"
+        android:layout_width="410dp"
+        android:layout_height="56dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:backgroundTint="@android:color/background_light"
+        android:text="            EDIT PROFILE"
+        android:textAlignment="textStart"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fav" />
+
+    <Button
+        android:id="@+id/settings"
+        android:layout_width="410dp"
+        android:layout_height="56dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:backgroundTint="@android:color/background_light"
+        android:text="            SETTINGS"
+        android:textAlignment="textStart"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profile"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/help"
+        android:layout_width="410dp"
+        android:layout_height="56dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:backgroundTint="@android:color/background_light"
+        android:text="             HELP"
+        android:textAlignment="textStart"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/register"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/edit"
+        android:layout_width="46dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="8dp"
+        android:elevation="2dp"
+        app:layout_constraintBottom_toTopOf="@+id/settings"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="@+id/fav"
+        app:layout_constraintTop_toBottomOf="@+id/fav"
+        app:layout_constraintVertical_bias="0.5"
+        app:srcCompat="@drawable/edit" />
+
+    <ImageView
+        android:id="@+id/help1"
+        android:layout_width="46dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="236dp"
+        android:elevation="2dp"
+        app:layout_constraintStart_toStartOf="@+id/fav"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:srcCompat="@drawable/help" />
+
+    <Button
+        android:id="@+id/about"
+        android:layout_width="410dp"
+        android:layout_height="56dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:backgroundTint="@android:color/background_light"
+        android:text="              ABOUT"
+        android:textAlignment="textStart"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/help"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/register"
+        android:layout_width="410dp"
+        android:layout_height="56dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="1dp"
+        android:backgroundTint="@android:color/background_light"
+        android:onClick="regevent"
+        android:text="             REGISTER AN EVENT"
+        android:textAlignment="textStart"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/settings"
+        app:layout_constraintVertical_bias="0.002" />
+
+    <Button
+        android:id="@+id/fav"
+        android:layout_width="410dp"
+        android:layout_height="56dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:backgroundTint="@android:color/background_light"
+        android:text="            Your Favourites"
+        android:textAlignment="textStart"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="410dp"
+        android:layout_height="58dp"
+        android:text="Hi,User"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/favourite"
+        android:layout_width="46dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:elevation="2dp"
+        app:layout_constraintBottom_toBottomOf="@+id/fav"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/fav"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/fav1" />
+
+    <ImageView
+        android:id="@+id/about1"
+        android:layout_width="46dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="292dp"
+        android:elevation="2dp"
+        app:layout_constraintStart_toStartOf="@+id/fav"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:srcCompat="@drawable/about" />
+
+    <ImageView
+        android:id="@+id/regeve"
+        android:layout_width="46dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="180dp"
+        android:elevation="2dp"
+        app:layout_constraintStart_toStartOf="@+id/fav"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:srcCompat="@drawable/event" />
+
+    <ImageView
+        android:id="@+id/setting"
+        android:layout_width="46dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="124dp"
+        android:elevation="2dp"
+        app:layout_constraintStart_toStartOf="@+id/fav"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:srcCompat="@drawable/settings" />
+    <com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx
+        android:id="@+id/botbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        android:background="#FFFFFF"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/bot_bar_items" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

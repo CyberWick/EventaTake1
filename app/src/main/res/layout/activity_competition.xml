@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Competition">
+
+    <Button
+        android:id="@+id/another"
+        android:layout_width="177dp"
+        android:layout_height="49dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="20dp"
+        android:background="@android:color/holo_green_light"
+        android:text="Add Competition"
+        android:textColor="@color/common_google_signin_btn_text_dark_pressed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/categories" />
+
+    <Button
+        android:id="@+id/finish"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="24dp"
+        android:background="@android:color/holo_green_light"
+        android:text="Finish"
+        android:textColor="@color/common_google_signin_btn_text_dark_pressed"
+        app:layout_constraintStart_toEndOf="@+id/another"
+        app:layout_constraintTop_toBottomOf="@+id/categories" />
+
+    <EditText
+        android:id="@+id/price"
+        android:layout_width="410dp"
+        android:layout_height="46dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="5dp"
+        android:ems="10"
+        android:hint="Enter Cost of Competition"
+        android:inputType="number"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/descrip2" />
+
+    <EditText
+        android:id="@+id/eventname2"
+        android:layout_width="410dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="Enter Event Name"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+    <EditText
+        android:id="@+id/descrip2"
+        android:layout_width="410dp"
+        android:layout_height="130dp"
+        android:ems="10"
+        android:hint="                   Enter Description of Event"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/eventname2" />
+
+    <Spinner
+        android:id="@+id/categories"
+        android:layout_width="410dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="13dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/price" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="413dp"
+        android:layout_height="30dp"
+
+        android:background="@android:color/holo_green_light"
+        android:text="REGISTER COMPETITION"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
