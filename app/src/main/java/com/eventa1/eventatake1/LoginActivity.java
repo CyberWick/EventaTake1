@@ -27,16 +27,24 @@ import static com.eventa1.eventatake1.MainActivity.PHONE_KEY;
 public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     // UI references.
-    private TextView mEmailView;
+    private TextView mEmailView,forgotpass;
     private EditText mPasswordView;
     private  SharedPreferences prefs;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        forgotpass=findViewById(R.id.forgotpass);
         mEmailView = findViewById(R.id.mailog);
         mPasswordView = findViewById(R.id.pswrdlog);
         mAuth = FirebaseAuth.getInstance();
+        forgotpass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i=new Intent(LoginActivity.this,forgot.class);
+                startActivity(i);
+            }
+        });
     }
     public void logIn(View v){
         final String email = mEmailView.getText().toString();

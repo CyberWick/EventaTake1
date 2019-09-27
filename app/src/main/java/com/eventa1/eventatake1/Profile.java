@@ -19,19 +19,34 @@ public class Profile extends AppCompatActivity {
     private final static int ACTIVITY_NUMBER=3;
     private FirebaseAuth.AuthStateListener authStateListener;
     private TextView mUserName;
-    Button signout;
+    Button signout,about,help;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         signout=findViewById(R.id.signout);
+        about=findViewById(R.id.about);
+        about.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Profile.this,aboutus.class);
+                startActivity(intent);
+            }
+        });
+        help=findViewById(R.id.help);
+        help.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Profile.this,helpactivity.class);
+                startActivity(intent);
+            }
+        });
         signout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();
                 Intent intent = new Intent(Profile.this, MainActivity.class);
-
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);//makesure user cant go back
                 startActivity(intent);
             }
