@@ -52,7 +52,7 @@ public class regEvent extends AppCompatActivity {
     private Uri filePath;
     private final int PICK_IMAGE_REQUEST = 71;
     DatabaseReference reference;
-    Register_Event register;
+    Register register;
     List<String> mList=new ArrayList<>();
     FirebaseStorage storage;
     StorageReference storageReference;
@@ -149,8 +149,8 @@ public class regEvent extends AppCompatActivity {
         descrip=findViewById(R.id.descrip);
         // tvw= findViewById(R.id.editText1);
         addevent=findViewById(R.id.addevent);
-        register=new Register_Event();
-        reference= FirebaseDatabase.getInstance().getReference().child("Register_Event");
+        register=new Register();
+        reference= FirebaseDatabase.getInstance().getReference().child("Register");
         yourEditText =  findViewById(R.id.date);
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();

@@ -15,9 +15,9 @@ import java.util.List;
 public class ExpandableAdapter extends BaseExpandableListAdapter {
     private Context context;
     private List<String> expandableListTitle;
-    private HashMap<String, CompClass> expandableListDetail;
+    private HashMap<String, Compete> expandableListDetail;
 
-    public ExpandableAdapter(Context context, List<String> expandableListTitle, HashMap<String, CompClass> expandableListDetail) {
+    public ExpandableAdapter(Context context, List<String> expandableListTitle, HashMap<String, Compete> expandableListDetail) {
         this.context = context;
         this.expandableListTitle = expandableListTitle;
         this.expandableListDetail = expandableListDetail;
@@ -77,7 +77,7 @@ public class ExpandableAdapter extends BaseExpandableListAdapter {
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         //final String expandedListText = (String) getChild(groupPosition, childPosition);
-        final CompClass temp = (CompClass) getChild(groupPosition,childPosition);
+        final Compete temp = (Compete) getChild(groupPosition,childPosition);
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) this.context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);

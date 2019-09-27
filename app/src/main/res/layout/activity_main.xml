@@ -10,15 +10,15 @@
 
     <ImageView
         android:id="@+id/imageView6"
-        android:layout_width="wrap_content"
-        android:layout_height="150dp"
+        android:layout_width="220dp"
+        android:layout_height="178dp"
         android:layout_marginStart="8dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/usrnamehome"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/applogo" />
+        app:srcCompat="@mipmap/logo_foreground" />
 
     <Button
         android:id="@+id/register_but"
@@ -134,6 +134,7 @@
         android:layout_marginBottom="8dp"
         android:ems="10"
         android:hint="Date of Birth"
+        android:focusable="false"
         android:inputType="date"
         app:layout_constraintBottom_toTopOf="@+id/register_but"
         app:layout_constraintEnd_toEndOf="parent"

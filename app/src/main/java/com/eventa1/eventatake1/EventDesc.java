@@ -29,10 +29,10 @@ public class EventDesc extends AppCompatActivity implements IfFirebaseLoad_comp 
     private TextView textLoc;
     private TextView textDesc;
     private IfFirebaseLoad_comp ifFirebaseLoad;
-    private Register_Event register_event;
+    private Register register_event;
     private List<String> compList = new ArrayList<>();
     private Button back_but;
-    private HashMap<String,CompClass> compMap = new HashMap<>();
+    private HashMap<String, Compete> compMap = new HashMap<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +63,7 @@ public class EventDesc extends AppCompatActivity implements IfFirebaseLoad_comp 
                     Bundle bundle = getIntent().getExtras();
                     String eveName = bundle.getString("eventName");
                     Log.d("flashchat","LOOKING FOR : " + eveName);
-                    register_event = dataSnapshot.child(eveName).getValue(Register_Event.class);
+                    register_event = dataSnapshot.child(eveName).getValue(Register.class);
                     Log.d("flashchat","Read EVENT NAME : " + register_event.getEve());
                     Picasso.with(EventDesc.this).load(register_event.getImage_url()).into(imageView);
                     textDesc.setText(register_event.getDes());
@@ -72,7 +72,7 @@ public class EventDesc extends AppCompatActivity implements IfFirebaseLoad_comp 
                     dataSnapshot = dataSnapshot.child(eveName).child("Compete");
                     for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                         Log.d("flashchat", postSnapshot.getKey());
-                        CompClass temp = dataSnapshot.child(postSnapshot.getKey()).getValue(CompClass.class);
+                        Compete temp = dataSnapshot.child(postSnapshot.getKey()).getValue(Compete.class);
                         compList.add(temp.getEvename2());
                         Log.d("flashchat", "IN BOOKMARKS" + temp.getEvename2());
                         compMap.put(temp.getEvename2(),temp);
@@ -89,7 +89,7 @@ public class EventDesc extends AppCompatActivity implements IfFirebaseLoad_comp 
     }
 
     @Override
-    public void onFirebaseLoadSuccess(List<String> compList, HashMap<String, CompClass> hashMap) {
+    public void onFirebaseLoadSuccess(List<String> compList, HashMap<String, Compete> hashMap) {
         expandableListView.setAdapter(new ExpandableAdapter(this,compList,hashMap));
     }
 

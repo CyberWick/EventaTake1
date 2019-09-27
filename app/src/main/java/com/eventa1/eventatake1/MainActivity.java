@@ -1,6 +1,7 @@
 package com.eventa1.eventatake1;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -12,6 +13,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -25,6 +27,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -45,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText mConfirmPasswordView;
 //    private TextView mCollege;
     private TextView mPhone;
+    DatePickerDialog datePickerDialog;
     private EditText mDOB;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +86,29 @@ public class MainActivity extends AppCompatActivity {
         mConfirmPasswordView = findViewById(R.id.conpswrd);
         Log.d("flashchat","STARTED APP");
         dbRef = FirebaseDatabase.getInstance().getReference();
+
+        mDOB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Calendar c = Calendar.getInstance();
+                int mYear = c.get(Calendar.YEAR); // current year
+                int mMonth = c.get(Calendar.MONTH); // current month
+                int mDay = c.get(Calendar.DAY_OF_MONTH); // current day
+                // date picker dialog
+                datePickerDialog = new DatePickerDialog(MainActivity.this,
+                        new DatePickerDialog.OnDateSetListener() {
+
+                            @Override
+                            public void onDateSet(DatePicker view, int year,
+                                                  int monthOfYear, int dayOfMonth) {
+                                // set day of month , month and year value in the edit text
+                                mDOB.setText(dayOfMonth + "/"+ (monthOfYear + 1) + "/" + year);
+
+                            }
+                        }, mYear, mMonth, mDay);
+                datePickerDialog.show();
+            }
+        });
     }
     @Override
     public void onStart(){

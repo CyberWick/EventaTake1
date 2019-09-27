@@ -1,6 +1,6 @@
 package com.eventa1.eventatake1;
 
-public class CompClass {
+public class Compete {
     private String evename2,des2,text;
     private int pric;
 
@@ -12,7 +12,7 @@ public class CompClass {
         this.text = text;
     }
 
-    public CompClass() {
+    public Compete() {
     }
 
     public String getEvename2() {
