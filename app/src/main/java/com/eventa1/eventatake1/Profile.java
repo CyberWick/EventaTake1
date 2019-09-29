@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,6 +15,9 @@ import android.widget.TextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
+
+import static com.eventa1.eventatake1.MainActivity.CHAT_PREFS;
+import static com.eventa1.eventatake1.MainActivity.LOG_CHECK_KEY;
 
 public class Profile extends AppCompatActivity {
     private final static int ACTIVITY_NUMBER=3;
@@ -46,6 +50,8 @@ public class Profile extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();
+                SharedPreferences prefs = getSharedPreferences(CHAT_PREFS,MODE_PRIVATE);
+                prefs.edit().putBoolean(LOG_CHECK_KEY,false).apply();
                 Intent intent = new Intent(Profile.this, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);//makesure user cant go back
                 startActivity(intent);
