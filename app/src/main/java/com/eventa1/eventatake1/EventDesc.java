@@ -2,6 +2,9 @@ package com.eventa1.eventatake1;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -21,10 +24,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import static com.eventa1.eventatake1.MainActivity.CHAT_PREFS;
+import static com.eventa1.eventatake1.MainActivity.USER_ID;
+
 public class EventDesc extends AppCompatActivity implements IfFirebaseLoad_comp {
     private ExpandableAdapter expandableAdapter;
     private ExpandableListView expandableListView;
     private ImageView imageView;
+    private ImageView likeImage;
     private TextView textName;
     private TextView textLoc;
     private TextView textDesc;
@@ -32,6 +39,8 @@ public class EventDesc extends AppCompatActivity implements IfFirebaseLoad_comp 
     private Register register_event;
     private List<String> compList = new ArrayList<>();
     private Button back_but;
+    private SharedPreferences prefs;
+    private String usrID;
     private HashMap<String, Compete> compMap = new HashMap<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +52,13 @@ public class EventDesc extends AppCompatActivity implements IfFirebaseLoad_comp 
         textDesc = findViewById(R.id.event_desc);
         expandableListView = findViewById(R.id.event_list);
         back_but = findViewById(R.id.back_but_event);
+        likeImage = findViewById(R.id.imageLike);
+        likeImage.setTag(R.mipmap.ic_favunlike);
         ifFirebaseLoad = this;
+        prefs = getSharedPreferences(CHAT_PREFS,MODE_PRIVATE);
+        usrID = prefs.getString(USER_ID,null);
+
+        Log.d("flashchat","IN EVENTDESC USRID : " + usrID);
         getData();
         back_but.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,5 +111,28 @@ public class EventDesc extends AppCompatActivity implements IfFirebaseLoad_comp 
     @Override
     public void onFirebaseLoadFail(String message) {
         Log.d("flashchat",message);
+    }
+    public void AddtoFav(View view){
+//        Drawable unlikeimg = getDrawable(R.mipmap.ic_favunlike);
+        //switch(view.get)
+        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("Favourites");
+        Bundle bundle = getIntent().getExtras();
+        String eveName = bundle.getString("eventName");
+        //String usrID = prefs.getString(USER_ID,null);
+        int tag = (int) likeImage.getTag();
+        if(tag == R.mipmap.ic_favunlike){
+            Log.d("flashchat","ADDING to FAV");
+            likeImage.setImageResource(R.mipmap.ic_favlike);
+            likeImage.setTag(R.mipmap.ic_favlike);
+            Log.d("flashchat","USR : " + usrID +"  eveName : " +eveName);
+            dbRef.child(usrID).child("EventName").child(eveName).setValue(eveName);
+            //dbRef.setValue(eveName);
+        }
+        else {
+            Log.d("flashchat","ADDING to UNFAV");
+            likeImage.setImageResource(R.mipmap.ic_favunlike);
+            likeImage.setTag(R.mipmap.ic_favunlike);
+            dbRef.child(usrID).child("EventName").child(eveName).removeValue();
+        }
     }
 }

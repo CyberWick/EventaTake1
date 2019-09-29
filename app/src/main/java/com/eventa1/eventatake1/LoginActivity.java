@@ -23,6 +23,7 @@ import static com.eventa1.eventatake1.MainActivity.DATE_OF_BIRTH_KEY;
 import static com.eventa1.eventatake1.MainActivity.DISPLAY_NAME_KEY;
 import static com.eventa1.eventatake1.MainActivity.LOG_CHECK_KEY;
 import static com.eventa1.eventatake1.MainActivity.PHONE_KEY;
+import static com.eventa1.eventatake1.MainActivity.USER_ID;
 
 public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
@@ -65,14 +66,19 @@ public class LoginActivity extends AppCompatActivity {
                     Log.d("FlashChat", "Problem signing in: " + task.getException());
 
                 } else {
-                    MainActivity m1 = new MainActivity();
-                    prefs = m1.getPrefs();
-                    prefs = getSharedPreferences(CHAT_PREFS, 0);
+                    //MainActivity m1 = new MainActivity();
+                    //prefs = m1.getPrefs();
+                    prefs = getSharedPreferences(CHAT_PREFS, MODE_PRIVATE);
 //                    prefs.edit().putString(DISPLAY_NAME_KEY, displayName).apply();
 //                    prefs.edit().putString(PHONE_KEY, phnno).apply();
 //                    prefs.edit().putString(DATE_OF_BIRTH_KEY, dob).apply();
+
                     prefs.edit().putBoolean(LOG_CHECK_KEY, true).apply();
+
                     FirebaseUser usr1 = mAuth.getCurrentUser();
+                    Log.d("flashchat","USERID FROM USER : " + usr1.getUid());
+                    prefs.edit().putString(USER_ID,usr1.getUid()).apply();
+                    Log.d("flashchat","LOGIN USRID : " + prefs.getString(USER_ID,null));
                     Intent intent = new Intent(LoginActivity.this, WelcomeHome.class);
                     intent.putExtra("email",email);
                     intent.putExtra("dbusr",usr1.getUid());

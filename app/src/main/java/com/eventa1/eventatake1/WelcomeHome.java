@@ -32,6 +32,7 @@ import static com.eventa1.eventatake1.MainActivity.CHAT_PREFS;
 import static com.eventa1.eventatake1.MainActivity.DATE_OF_BIRTH_KEY;
 import static com.eventa1.eventatake1.MainActivity.DISPLAY_NAME_KEY;
 import static com.eventa1.eventatake1.MainActivity.PHONE_KEY;
+import static com.eventa1.eventatake1.MainActivity.USER_ID;
 
 public class WelcomeHome extends AppCompatActivity implements IfFirebaseLoad {
     private SharedPreferences prefs;
@@ -103,13 +104,15 @@ public class WelcomeHome extends AppCompatActivity implements IfFirebaseLoad {
             usrname = prefs.getString(DISPLAY_NAME_KEY,null);
             phnno = prefs.getString(PHONE_KEY,"");
             Log.d("flashchat","IN SREF Read username as " + usrname);
+            Log.d("flashchat","WH USRID : " + prefs.getString(USER_ID,null));
             mUserName.setText("Hi," + usrname);
             usrName = mUserName.getText().toString();
         } else {
             //FirebaseUser usr = bundle.get;
-            String usrID = bundle.getString("dbusr");
+            final String usrID = bundle.getString("dbusr");
 //            String parts[] = email.split("@");
             Log.d("flashchat","Reading UID : " + usrID);
+
             dbRef = FirebaseDatabase.getInstance().getReference("users").child(usrID);
             dbRef.addValueEventListener(new ValueEventListener() {
                 @Override
@@ -122,6 +125,7 @@ public class WelcomeHome extends AppCompatActivity implements IfFirebaseLoad {
                     prefs.edit().putString(DISPLAY_NAME_KEY, usrname).apply();
                     prefs.edit().putString(PHONE_KEY, phnno).apply();
                     prefs.edit().putString(DATE_OF_BIRTH_KEY, dob).apply();
+                    prefs.edit().putString(USER_ID, usrID).apply();
                     Log.d("flashchat","IN firebase Read username as " + usrname);
                     mUserName.setText("Hi," + usrname);
                     usrName = mUserName.getText().toString();

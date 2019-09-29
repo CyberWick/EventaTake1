@@ -253,7 +253,8 @@ public class MainActivity extends AppCompatActivity {
         try {
             dbRef.child("users").child(usr.getUid()).setValue(usr1);
 
-        prefs.edit().putString(USER_ID,usr.getUid());
+        prefs.edit().putString(USER_ID,usr.getUid()).apply();
+        Log.d("flashchat","ID : " + prefs.getString(USER_ID,null));
         }catch(Exception e){
             Log.d("flashchat",e.toString());
         }
