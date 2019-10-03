@@ -24,7 +24,7 @@ public class Competition extends AppCompatActivity implements AdapterView.OnItem
     private Spinner categories;
     DatabaseReference reference1;
     EditText price,eventname2,descrip2;
-    CompClass compete;
+    Compete compete;
     Button another,finish;
     private String eventnam;
 
@@ -59,8 +59,8 @@ public class Competition extends AppCompatActivity implements AdapterView.OnItem
         ArrayAdapter<String>dataAdapter=new ArrayAdapter<>(this,android.R.layout.simple_spinner_item,cate);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         categories.setAdapter(dataAdapter);
-        compete=new CompClass();
-        reference1= FirebaseDatabase.getInstance().getReference().child("Register_Event");
+        compete=new Compete();
+        reference1= FirebaseDatabase.getInstance().getReference().child("Register");
 
         another.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,7 +69,7 @@ public class Competition extends AppCompatActivity implements AdapterView.OnItem
                 compete.setEvename2(eventname2.getText().toString().trim());
                 compete.setPric(Integer.parseInt(price.getText().toString().trim()));
                 compete.setText(categories.getSelectedItem().toString());
-                reference1.child(eventnam).child("CompClass").child(compete.getEvename2()).setValue(compete);
+                reference1.child(eventnam).child("Compete").child(compete.getEvename2()).setValue(compete);
 
                 Intent k=new Intent(Competition.this, Competition.class);
                 k.putExtra("eventnam",eventnam);

@@ -35,8 +35,8 @@ public class BottomNavHelper {
                         context.startActivity(intent4);
                         //Toast.makeText(WelcomeHome.this,"Selected USER",Toast.LENGTH_SHORT).show();
                         break;
-                    case R.id.id_favevents:
-                        Intent intent3 = new Intent(context,Bookmarks.class);
+                    case R.id.id_yourevents:
+                        Intent intent3 = new Intent(context,YourEvents.class);
                         context.startActivity(intent3);
                         //Toast.makeText(WelcomeHome.this,"Selected BOOKMARKS",Toast.LENGTH_SHORT).show();
                         break;

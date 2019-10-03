@@ -2,6 +2,7 @@ package com.eventa1.eventatake1;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +16,9 @@ import java.util.List;
 public class ExpandableAdapter extends BaseExpandableListAdapter {
     private Context context;
     private List<String> expandableListTitle;
-    private HashMap<String, CompClass> expandableListDetail;
+    private HashMap<String, Compete> expandableListDetail;
 
-    public ExpandableAdapter(Context context, List<String> expandableListTitle, HashMap<String, CompClass> expandableListDetail) {
+    public ExpandableAdapter(Context context, List<String> expandableListTitle, HashMap<String, Compete> expandableListDetail) {
         this.context = context;
         this.expandableListTitle = expandableListTitle;
         this.expandableListDetail = expandableListDetail;
@@ -69,7 +70,7 @@ public class ExpandableAdapter extends BaseExpandableListAdapter {
         TextView textView = convertView.findViewById(R.id.comp_head);
         textView.setTypeface(null, Typeface.BOLD);
         textView.setText(listTitle);
-        RadioButton mradio = convertView.findViewById(R.id.isSelected);
+        //RadioButton mradio = convertView.findViewById(R.id.isSelected);
 
         return convertView;
     }
@@ -77,13 +78,14 @@ public class ExpandableAdapter extends BaseExpandableListAdapter {
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         //final String expandedListText = (String) getChild(groupPosition, childPosition);
-        final CompClass temp = (CompClass) getChild(groupPosition,childPosition);
+        final Compete temp = (Compete) getChild(groupPosition,childPosition);
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) this.context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = layoutInflater.inflate(R.layout.expandable_listview_event, null);
         }
         TextView textCat = convertView.findViewById(R.id.comp_cat);
+        Log.d("flashchat","Category as " + temp.getText());
         textCat.setText("Category : " + temp.getText());
         TextView textdesc = convertView.findViewById(R.id.comp_desc);
         textdesc.setText("Description:\n" + temp.getDes2());

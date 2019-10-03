@@ -5,4 +5,14 @@
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
     <string name="welcomemsg">Is this you?</string>
+    <string name="text_with_paragraphs">
+                We are Eventa - An Event Booking app.At Eventa,
+        you can check various events,select your favorite event,
+        view different competitions,pay and get your event booking
+        details and tickets.
+    </string>
+    <string name="para">
+                All with a few taps of your phone!Book with us
+        for a quick and hassle-free Event Booking experience!!
+</string>
 </resources>

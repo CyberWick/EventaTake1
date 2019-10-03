@@ -9,6 +9,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.ArraySet;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,11 +28,14 @@ import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import static com.eventa1.eventatake1.MainActivity.CHAT_PREFS;
 import static com.eventa1.eventatake1.MainActivity.DATE_OF_BIRTH_KEY;
 import static com.eventa1.eventatake1.MainActivity.DISPLAY_NAME_KEY;
+import static com.eventa1.eventatake1.MainActivity.FAVEVENTS_LIST;
 import static com.eventa1.eventatake1.MainActivity.PHONE_KEY;
+import static com.eventa1.eventatake1.MainActivity.USER_ID;
 
 public class WelcomeHome extends AppCompatActivity implements IfFirebaseLoad {
     private SharedPreferences prefs;
@@ -67,7 +71,9 @@ public class WelcomeHome extends AppCompatActivity implements IfFirebaseLoad {
         Menu menu = bottomNavigationViewEx.getMenu();
         MenuItem menuItem = menu.getItem(ACTIVITY_NUMBER);
         menuItem.setChecked(true);
+//        GetFavourites();
     }
+
     private void getListItems() {
         Log.d("flashchat","Searching for EVENTS");
         dbRef = FirebaseDatabase.getInstance().getReference("Events");
@@ -103,13 +109,15 @@ public class WelcomeHome extends AppCompatActivity implements IfFirebaseLoad {
             usrname = prefs.getString(DISPLAY_NAME_KEY,null);
             phnno = prefs.getString(PHONE_KEY,"");
             Log.d("flashchat","IN SREF Read username as " + usrname);
+            Log.d("flashchat","WH USRID : " + prefs.getString(USER_ID,null));
             mUserName.setText("Hi," + usrname);
             usrName = mUserName.getText().toString();
         } else {
             //FirebaseUser usr = bundle.get;
-            String usrID = bundle.getString("dbusr");
+            final String usrID = bundle.getString("dbusr");
 //            String parts[] = email.split("@");
             Log.d("flashchat","Reading UID : " + usrID);
+
             dbRef = FirebaseDatabase.getInstance().getReference("users").child(usrID);
             dbRef.addValueEventListener(new ValueEventListener() {
                 @Override
@@ -122,6 +130,7 @@ public class WelcomeHome extends AppCompatActivity implements IfFirebaseLoad {
                     prefs.edit().putString(DISPLAY_NAME_KEY, usrname).apply();
                     prefs.edit().putString(PHONE_KEY, phnno).apply();
                     prefs.edit().putString(DATE_OF_BIRTH_KEY, dob).apply();
+                    prefs.edit().putString(USER_ID, usrID).apply();
                     Log.d("flashchat","IN firebase Read username as " + usrname);
                     mUserName.setText("Hi," + usrname);
                     usrName = mUserName.getText().toString();
@@ -145,4 +154,59 @@ public class WelcomeHome extends AppCompatActivity implements IfFirebaseLoad {
     public void onFirebaseLoadFail(String message) {
 
     }
+    private void GetFavourites() {
+
+        final DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("Favourites");
+        final String usrID = prefs.getString(USER_ID,null);
+        Log.d("flashchat1","In GET FAVOURITES");
+        //dbRef = dbRef.child()
+        dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                if (snapshot.hasChild(usrID)) {
+                    Log.d("flashchat1", "FAV AlREADY EXISTS");
+                    dbRef.child(usrID).child("EventName").addValueEventListener(new ValueEventListener() {
+                        Set<String> favEvents = new ArraySet<>();
+
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            favEvents = new ArraySet<>();
+                            Log.d("flashchat1", "BEFORE ADDING " + favEvents.size());
+                            for (DataSnapshot snapshot1 : dataSnapshot.getChildren()) {
+                                Log.d("flashchat1", "FOUND " + snapshot1.getKey());
+                                favEvents.add(snapshot1.getKey());
+                            }
+                            Log.d("flashchat1", "SIZE OF FAVS IN LOGIN : " + favEvents.size());
+                            prefs.edit().putStringSet(FAVEVENTS_LIST, favEvents).apply();
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            favEvents = new ArraySet<>();
+                            Log.d("flashchat1", "FAV was not PRESENT");
+                            prefs.edit().putStringSet(FAVEVENTS_LIST, favEvents).apply();
+                        }
+
+                    });
+//                }
+                } else {
+                    Set<String> nullSet = new ArraySet<>();
+                    prefs.edit().putStringSet(FAVEVENTS_LIST,nullSet).apply();
+//                    List<EventsInfo> favEveList1 = new ArrayList<>();
+                    Log.d("flashchatad","NOT IN IF SIZE OF FAVEVELIST : " + nullSet.size());
+//                    ifFirebaseLoad.onFirebaseLoadSuccess(favEveList1);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.d("flashchat1","FAV was not PRESENT");
+                Set<String> favEvents = new ArraySet<>();
+                prefs.edit().putStringSet(FAVEVENTS_LIST,favEvents).apply();
+            }
+        });
+
+    }
 }
+
+

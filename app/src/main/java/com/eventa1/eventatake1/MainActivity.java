@@ -1,6 +1,7 @@
 package com.eventa1.eventatake1;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -8,10 +9,13 @@ import android.graphics.drawable.Drawable;
 import android.media.Image;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.collection.ArraySet;
+
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -25,11 +29,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
     static final String CHAT_PREFS = "ChatPrefs";
     static final String LOG_CHECK_KEY = "logged";
+    static final String FAVEVENTS_LIST = "FavEventsList";
     static final String DISPLAY_NAME_KEY = "username";
     static final String COLLEGE_NAME_KEY = "college";
     static final String DATE_OF_BIRTH_KEY = "DOB";
@@ -45,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText mConfirmPasswordView;
 //    private TextView mCollege;
     private TextView mPhone;
+    DatePickerDialog datePickerDialog;
     private EditText mDOB;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +90,29 @@ public class MainActivity extends AppCompatActivity {
         mConfirmPasswordView = findViewById(R.id.conpswrd);
         Log.d("flashchat","STARTED APP");
         dbRef = FirebaseDatabase.getInstance().getReference();
+
+        mDOB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Calendar c = Calendar.getInstance();
+                int mYear = c.get(Calendar.YEAR); // current year
+                int mMonth = c.get(Calendar.MONTH); // current month
+                int mDay = c.get(Calendar.DAY_OF_MONTH); // current day
+                // date picker dialog
+                datePickerDialog = new DatePickerDialog(MainActivity.this,
+                        new DatePickerDialog.OnDateSetListener() {
+
+                            @Override
+                            public void onDateSet(DatePicker view, int year,
+                                                  int monthOfYear, int dayOfMonth) {
+                                // set day of month , month and year value in the edit text
+                                mDOB.setText(dayOfMonth + "/"+ (monthOfYear + 1) + "/" + year);
+
+                            }
+                        }, mYear, mMonth, mDay);
+                datePickerDialog.show();
+            }
+        });
     }
     @Override
     public void onStart(){
@@ -218,6 +249,8 @@ public class MainActivity extends AppCompatActivity {
         prefs.edit().putString(PHONE_KEY, phnno).apply();
         prefs.edit().putString(DATE_OF_BIRTH_KEY, dob).apply();
         prefs.edit().putBoolean(LOG_CHECK_KEY, true).apply();
+        Set<String> favEvents = new ArraySet<>();
+        prefs.edit().putStringSet(FAVEVENTS_LIST,favEvents);
         Log.d("flashchat","DONE SREF");
         UserInfo1 usr1 = new UserInfo1(displayName,phnno,dob);
         Log.d("flashchat","STARTING TO STORE IN DB");
@@ -226,7 +259,8 @@ public class MainActivity extends AppCompatActivity {
         try {
             dbRef.child("users").child(usr.getUid()).setValue(usr1);
 
-        prefs.edit().putString(USER_ID,usr.getUid());
+        prefs.edit().putString(USER_ID,usr.getUid()).apply();
+        Log.d("flashchat","ID : " + prefs.getString(USER_ID,null));
         }catch(Exception e){
             Log.d("flashchat",e.toString());
         }

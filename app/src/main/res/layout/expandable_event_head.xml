@@ -17,13 +17,4 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.05"></TextView>
 
-    <RadioButton
-        android:id = "@+id/isSelected"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/comp_head"
-        app:layout_constraintEnd_toEndOf="@+id/comp_head"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/comp_head"
-        app:layout_constraintTop_toTopOf="@+id/comp_head"></RadioButton>
 </androidx.constraintlayout.widget.ConstraintLayout>

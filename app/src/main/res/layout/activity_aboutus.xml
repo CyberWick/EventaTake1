@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#252a37"
+    tools:context=".aboutus">
+
+    <Button
+        android:id="@+id/about"
+        android:layout_width="410dp"
+        android:layout_height="52dp"
+        android:background="#F4D529"
+        android:text="              ABOUT US"
+        android:textAlignment="textStart"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="#252a37"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/aboutlogo"
+        android:layout_width="144dp"
+        android:layout_height="127dp"
+        android:layout_marginStart="96dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/about"
+        app:srcCompat="@mipmap/logo" />
+
+    <TextView
+        android:id="@+id/abouttext"
+        android:layout_width="334dp"
+        android:layout_height="127dp"
+        android:layout_marginStart="25dp"
+        android:text="@string/text_with_paragraphs"
+        android:textColor="#F4D529"
+        android:textSize="20sp"
+        android:textStyle="italic"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/aboutlogo" />
+
+    <TextView
+        android:id="@+id/abouttext2"
+        android:layout_width="334dp"
+        android:layout_height="121dp"
+        android:layout_marginStart="24dp"
+        android:text="@string/para"
+        android:textColor="#F4D529"
+        android:textSize="20sp"
+        android:textStyle="italic"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/abouttext" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

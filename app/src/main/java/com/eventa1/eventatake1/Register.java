@@ -3,7 +3,7 @@ package com.eventa1.eventatake1;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Register_Event {
+public class Register {
     private String Col,Eve,Des,Cat,image_url,contact_number,Date,EndDate;
     List<String> mList=new ArrayList<>();
 
@@ -47,7 +47,7 @@ public class Register_Event {
         this.mList = mList;
     }
 
-    public Register_Event() {
+    public Register() {
     }
 
     public String getCol() {

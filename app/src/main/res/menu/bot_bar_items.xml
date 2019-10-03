@@ -16,7 +16,7 @@
         android:title="Search"
         app:showAsAction="ifRoom"/>
     <item
-        android:id = "@+id/id_favevents"
+        android:id = "@+id/id_yourevents"
         android:enabled = "true"
         android:icon="@drawable/ic_favevents"
         android:title="Bookings"
