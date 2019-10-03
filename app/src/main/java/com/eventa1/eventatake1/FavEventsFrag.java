@@ -1,12 +1,14 @@
 package com.eventa1.eventatake1;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.util.ArraySet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,8 +22,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+
+import static android.content.Context.MODE_PRIVATE;
+import static com.eventa1.eventatake1.MainActivity.CHAT_PREFS;
+import static com.eventa1.eventatake1.MainActivity.FAVEVENTS_LIST;
+import static com.eventa1.eventatake1.MainActivity.USER_ID;
 
 
 /**
@@ -43,7 +52,9 @@ public class FavEventsFrag extends Fragment implements IfFirebaseLoad{
     private String mParam2;
     private List<EventsInfo> favList= new ArrayList<>();
     private OnFragmentInteractionListener mListener;
+    private SharedPreferences prefs;
     private ListView mListView;
+    private String usrID;
     private View rootView;
     private Context mContext;
     private TextView textView;
@@ -77,6 +88,8 @@ public class FavEventsFrag extends Fragment implements IfFirebaseLoad{
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        SharedPreferences prefs = this.getActivity().getSharedPreferences(CHAT_PREFS, MODE_PRIVATE);
+        usrID = prefs.getString(USER_ID,null);
         mIfFirebaseLoad = this;
 
 
@@ -92,14 +105,10 @@ public class FavEventsFrag extends Fragment implements IfFirebaseLoad{
         Log.d("flashchat","CURR TEXT : " + textView.getText().toString());
         //textView.setText("WELL GOT IN");
         mListView = rootView.findViewById(R.id.favlist);
-//        List<String> eveList = new ArrayList<>();
-//        eveList.add("This");
-//        eveList.add("iS");
-//        eveList.add("Sparta");
-//        ArrayAdapter<String> usrItems= new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,eveList);
-        //mListView.setAdapter(usrItems);
+//        List<String> eveList = new Array
+        prefs = this.getActivity().getSharedPreferences(CHAT_PREFS,MODE_PRIVATE);
         getFavEvents();
-        Log.d("flashchat","ListView should be set");
+        Log.d("flashchatad","ListView should be set");
         mContext = container.getContext();
         return rootView;
     }
@@ -129,16 +138,88 @@ public class FavEventsFrag extends Fragment implements IfFirebaseLoad{
     }
     private void getFavEvents() {
         DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("Events");
+//        final DatabaseReference favRef = FirebaseDatabase.getInstance().getReference("Favourites");
+//        favRef.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                final List<EventsInfo> favEveList = new ArrayList<>();
+//                if(dataSnapshot.hasChild(usrID)){
+//                    dataSnapshot = dataSnapshot.child(usrID).child("EventName");
+//                    final Iterable<DataSnapshot> favList = dataSnapshot.getChildren();
+//                    final Set<String > favSet = new ArraySet<>();
+//                    for(DataSnapshot ds : favList){
+//                        Log.d("flashchatad","FAVLIST : " + ds.getKey());
+//                        favSet.add(ds.getKey());
+//                    }
+//
+//                    DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("Events");
+//                    dbRef.addValueEventListener(new ValueEventListener() {
+//                        @Override
+//                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//
+//                            for(DataSnapshot dataSnapshot1 :dataSnapshot.getChildren()) {
+//                                Log.d("flashchatad","CHILDREN : "  + dataSnapshot1.getKey());
+//                                //
+//                                for(String temp2 : favSet) {
+//                                    Log.d("flashchatad","2 CHILDREN : "  + dataSnapshot1.getKey() + "        " + temp2);
+//                                    if(temp2.equals(dataSnapshot1.getKey())){
+//                                        EventsInfo temp = dataSnapshot1.getValue(EventsInfo.class);
+//                                        Log.d("flashchatad","MATCHED EVENT : " + temp.getTitile());
+//                                        favEveList.add(temp);
+//                                    }
+//                                }
+//                                Log.d("flashchatad","SIZE OF FAVEVELIST : " + favEveList.size());
+//                            }
+//                            mIfFirebaseLoad.onFirebaseLoadSuccess(favEveList);
+//                        }
+//
+//                        @Override
+//                        public void onCancelled(@NonNull DatabaseError databaseError) {
+//                            List<EventsInfo> favEveList = new ArrayList<>();
+//                            Log.d("flashchatad","FAILED SIZE OF FAVEVELIST : " + favEveList.size());
+//                            mIfFirebaseLoad.onFirebaseLoadSuccess(favEveList);
+//                        }
+//                    });
+//
+//                }else {
+//                    List<EventsInfo> favEveList1 = new ArrayList<>();
+//                    Log.d("flashchatad","NOT IN IF SIZE OF FAVEVELIST : " + favEveList.size());
+//                    mIfFirebaseLoad.onFirebaseLoadSuccess(favEveList1);
+//                }
+//
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//                List<EventsInfo> favEveList = new ArrayList<>();
+//                Log.d("flashchatad","FAILED CHILD SIZE OF FAVEVELIST : " + favEveList.size());
+//                mIfFirebaseLoad.onFirebaseLoadSuccess(favEveList);
+//            }
+//        });
+        final String usrID = prefs.getString(USER_ID,null);
+        Set<String> favEvents = new ArraySet<>();
+        favEvents = prefs.getStringSet(FAVEVENTS_LIST,null);
+        Log.d("flashchat1","FAVEVENTS : " + favEvents.size());
+        //dbRef = dbRef.child()
+        final Set<String> finalFavEvents = favEvents;
         dbRef.addValueEventListener(new ValueEventListener() {
 
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Log.d("flashchat","Searching for EVENTS");
+                Log.d("flashchat1",finalFavEvents.toString());
+                favList = new ArrayList<>();
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                     Log.d("flashchat", postSnapshot.getKey());
-                    EventsInfo temp = dataSnapshot.child(postSnapshot.getKey()).getValue(EventsInfo.class);
-                    favList.add(temp);
-                    Log.d("flashchat", "IN BOOKMARKS" + temp.getTitile());
+                    for(String temp : finalFavEvents){
+                        if(temp.equals(postSnapshot.getKey())){
+                            Log.d("flashchat1","MATCHED" + temp);
+                            EventsInfo Etemp = dataSnapshot.child(postSnapshot.getKey()).getValue(EventsInfo.class);
+                            favList.add(Etemp);
+                        }
+                    }
+                    Log.d("flashchat", "size of favList : " + favList.size());
 //                    Log.d("flashchat","with IMAGE url  : " + temp.getImage());
 
                 }
@@ -152,15 +233,25 @@ public class FavEventsFrag extends Fragment implements IfFirebaseLoad{
             }
         });
     }
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d("flashchatad","On RESUME");
+        getFavEvents();
+    }
     @Override
     public void onFirebaseLoadSuccess(List<EventsInfo> list) {
-        Log.d("flashchat","SENDING FAvLIST " + Integer.toString(favList.size()));
+        Log.d("flashchatad","SENDING FAvLIST " + Integer.toString(favList.size()));
         //mListView = rootView.findViewById(R.id.favlist);
         if(list.size()>0){
             textView.setVisibility(View.INVISIBLE);
+        } else {
+            Set<String> favEvents = new ArraySet<>();
+            prefs.edit().putStringSet(FAVEVENTS_LIST,favEvents).apply();
+            textView.setVisibility(View.VISIBLE);
+            mListView.setVisibility(View.INVISIBLE);
         }
-        Log.d("flashchat","ROOTVIEW : " + mListView.toString());
+//        Log.d("flashchat","ROOTVIEW : " + mListView.toString());
         mListView.setAdapter(new FavEventsAdapter(list,mContext));
     }
 

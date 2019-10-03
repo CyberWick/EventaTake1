@@ -2,6 +2,7 @@ package com.eventa1.eventatake1;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.collection.ArraySet;
 
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
@@ -23,8 +24,10 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import static com.eventa1.eventatake1.MainActivity.CHAT_PREFS;
+import static com.eventa1.eventatake1.MainActivity.FAVEVENTS_LIST;
 import static com.eventa1.eventatake1.MainActivity.USER_ID;
 
 public class EventDesc extends AppCompatActivity implements IfFirebaseLoad_comp {
@@ -53,12 +56,14 @@ public class EventDesc extends AppCompatActivity implements IfFirebaseLoad_comp 
         expandableListView = findViewById(R.id.event_list);
         back_but = findViewById(R.id.back_but_event);
         likeImage = findViewById(R.id.imageLike);
+
         likeImage.setTag(R.mipmap.ic_favunlike);
+        //likeImage.setVisibility(View.INVISIBLE);
         ifFirebaseLoad = this;
         prefs = getSharedPreferences(CHAT_PREFS,MODE_PRIVATE);
         usrID = prefs.getString(USER_ID,null);
-
-        Log.d("flashchat","IN EVENTDESC USRID : " + usrID);
+        CheckFav();
+//        Log.d("flashchat","IN EVENTDESC USRID : " + usrID);
         getData();
         back_but.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,23 +78,23 @@ public class EventDesc extends AppCompatActivity implements IfFirebaseLoad_comp 
 
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Log.d("flashchat","INEVENTDESC Searching for EVENTS");
-                    Log.d("flashchat", dataSnapshot.getKey());
+//                Log.d("flashchat","INEVENTDESC Searching for EVENTS");
+//                    Log.d("flashchat", dataSnapshot.getKey());
                     Bundle bundle = getIntent().getExtras();
                     String eveName = bundle.getString("eventName");
                     Log.d("flashchat","LOOKING FOR : " + eveName);
                     register_event = dataSnapshot.child(eveName).getValue(Register.class);
-                    Log.d("flashchat","Read EVENT NAME : " + register_event.getEve());
+//                    Log.d("flashchat","Read EVENT NAME : " + register_event.getEve());
                     Picasso.with(EventDesc.this).load(register_event.getImage_url()).into(imageView);
                     textDesc.setText(register_event.getDes());
                     textLoc.setText(register_event.getCol());
                     textName.setText(register_event.getEve());
                     dataSnapshot = dataSnapshot.child(eveName).child("Compete");
                     for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-                        Log.d("flashchat", postSnapshot.getKey());
+//                        Log.d("flashchat", postSnapshot.getKey());
                         Compete temp = dataSnapshot.child(postSnapshot.getKey()).getValue(Compete.class);
                         compList.add(temp.getEvename2());
-                        Log.d("flashchat", "IN BOOKMARKS" + temp.getEvename2());
+//                        Log.d("flashchat", "IN BOOKMARKS" + temp.getEvename2());
                         compMap.put(temp.getEvename2(),temp);
                     }
                 ifFirebaseLoad.onFirebaseLoadSuccess(compList,compMap);
@@ -125,14 +130,62 @@ public class EventDesc extends AppCompatActivity implements IfFirebaseLoad_comp 
             likeImage.setImageResource(R.mipmap.ic_favlike);
             likeImage.setTag(R.mipmap.ic_favlike);
             Log.d("flashchat","USR : " + usrID +"  eveName : " +eveName);
+
             dbRef.child(usrID).child("EventName").child(eveName).setValue(eveName);
             //dbRef.setValue(eveName);
+            Set<String> favEvents = new ArraySet<>();
+            favEvents = prefs.getStringSet(FAVEVENTS_LIST,null);
+            favEvents.add(eveName);
+            prefs.edit().putStringSet(FAVEVENTS_LIST,favEvents).apply();
         }
         else {
             Log.d("flashchat","ADDING to UNFAV");
             likeImage.setImageResource(R.mipmap.ic_favunlike);
             likeImage.setTag(R.mipmap.ic_favunlike);
             dbRef.child(usrID).child("EventName").child(eveName).removeValue();
+            Set<String> favEvents = new ArraySet<>();
+            favEvents = prefs.getStringSet(FAVEVENTS_LIST,null);
+            for(String temp : favEvents){
+                if(temp.equals(eveName)){
+                    favEvents.remove(temp);
+                    break;
+                }
+            }
+            Log.d("flashchat","SIZE AFTER REMOVE : " + favEvents.size());
+            prefs.edit().putStringSet(FAVEVENTS_LIST,favEvents).apply();
+
         }
     }
-}
+
+
+
+    private Boolean CheckFav(){
+        Set<String> favEvents;// = new ArraySet<>();
+        favEvents = prefs.getStringSet(FAVEVENTS_LIST,null);
+        if(favEvents==null) {
+            Log.d("flashchat","NO EVENTS ADDED to FAVS");
+            return false;
+        } else {
+            int flag =0;
+            Bundle bundle = getIntent().getExtras();
+            final String eveName = bundle.getString("eventName");
+
+            for(String tempEve : favEvents) {
+                if(tempEve.equals(eveName)){
+                    flag=1;
+                    break;
+                }
+
+            }
+            if(flag==1){
+                Log.d("flashchat","was Booked Already");
+                likeImage.setImageResource(R.mipmap.ic_favlike);
+                likeImage.setTag(R.mipmap.ic_favlike);
+
+                return true;
+            }
+        }
+        Log.d("flashchat","New EVENT");
+        return false;
+        }
+    }

@@ -9,13 +9,18 @@
         android:roundIcon="@mipmap/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Receipt"></activity>
-        <activity android:name=".helpactivity" />
+        <activity android:name=".helpactivity"></activity>
         <activity android:name=".aboutus" />
         <activity
             android:name=".forgot"
             android:parentActivityName=".LoginActivity" />
-        <activity android:name=".splash"></activity>
+        <activity android:name=".splash">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".Competition" />
         <activity android:name=".regEvent" />
         <activity android:name=".Profile" />
@@ -32,10 +37,10 @@
             </intent-filter>
         </activity>
     </application>
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_SMS" />
-    <uses-permission android:name="android.permission.RECEIVE_SMS" />
 
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
 
 </manifest>

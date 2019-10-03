@@ -33,7 +33,7 @@ public class FavEventsAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        Log.d("flaschat","SIZE : " + events.size());
+//        Log.d("flaschat","SIZE : " + events.size());
         if(events.size()==0)
             return 1;
         return events.size();
@@ -42,14 +42,14 @@ public class FavEventsAdapter extends BaseAdapter {
     @Override
     public Object getItem(int position) {
 
-        Log.d("flashchat","GETITEM getView");
+//        Log.d("flashchat","GETITEM getView");
         return this.events.get(position);
     }
 
     @Override
     public long getItemId(int position) {
 
-        Log.d("flashchat","POS getView");
+//        Log.d("flashchat","POS getView");
         return position;
     }
     public static class ViewHolder{
@@ -62,7 +62,7 @@ public class FavEventsAdapter extends BaseAdapter {
     }
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        Log.d("flashchat","getView");
+//        Log.d("flashchat","getView");
         View view = convertView;
         ViewHolder viewHolder;
         Log.d("flashchat",Integer.toString(events.size()));
