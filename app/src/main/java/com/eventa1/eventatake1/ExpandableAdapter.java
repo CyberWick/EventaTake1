@@ -1,14 +1,18 @@
 package com.eventa1.eventatake1;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.RadioButton;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +21,7 @@ public class ExpandableAdapter extends BaseExpandableListAdapter {
     private Context context;
     private List<String> expandableListTitle;
     private HashMap<String, Compete> expandableListDetail;
+    Button bookie;
 
     public ExpandableAdapter(Context context, List<String> expandableListTitle, HashMap<String, Compete> expandableListDetail) {
         this.context = context;
@@ -24,6 +29,32 @@ public class ExpandableAdapter extends BaseExpandableListAdapter {
         this.expandableListDetail = expandableListDetail;
     }
 
+    public void confirm()
+    {
+        alertDialog();
+    }
+    private void alertDialog() {
+        AlertDialog.Builder dialog=new AlertDialog.Builder(context);
+        dialog.setMessage("Please Select any option");
+        dialog.setTitle("DO YOU WANT TO BOOK EVENT");
+        dialog.setPositiveButton("YES",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,
+                                        int which) {
+                        Toast.makeText(context.getApplicationContext(),"Yes is clicked",Toast.LENGTH_LONG).show();
+                        Intent b=new Intent(context, Receipt.class);
+                        context.startActivity(b);
+                    }
+                });
+        dialog.setNegativeButton("cancel",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(context.getApplicationContext(),"cancel is clicked",Toast.LENGTH_LONG).show();
+            }
+        });
+        AlertDialog alertDialog=dialog.create();
+        alertDialog.show();
+    }
     @Override
     public int getGroupCount() {
         return this.expandableListTitle.size();
@@ -92,6 +123,13 @@ public class ExpandableAdapter extends BaseExpandableListAdapter {
         TextView textPrice = convertView.findViewById(R.id.comp_price);
 
         textPrice.setText("Price : " + Integer.toString(temp.getPric()));
+        bookie=convertView.findViewById(R.id.bookie);
+        bookie.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertDialog();
+            }
+        });
         return convertView;
     }
 
