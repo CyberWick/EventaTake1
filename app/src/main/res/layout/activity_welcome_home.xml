@@ -6,17 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".WelcomeHome">
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/viewPager"
-        android:layout_width="0dp"
-        android:layout_height="200dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topbar"
-        app:layout_constraintVertical_bias="0.0" />
-
     <ImageView
         android:id="@+id/topbar"
         android:layout_width="0dp"
@@ -35,8 +24,8 @@
         android:id="@+id/usrnamehome"
         android:layout_width="wrap_content"
         android:layout_height="25dp"
-        android:layout_marginBottom="8dp"
         android:layout_marginStart="5dp"
+        android:layout_marginBottom="8dp"
         android:text="TextView"
         android:textColor="#707070"
         android:textSize="20dp"
@@ -48,16 +37,48 @@
         app:layout_constraintTop_toTopOf="@+id/topbar"
         app:layout_constraintVertical_bias="0.444" />
 
+    <VideoView
+        android:id="@+id/videoView"
+        android:layout_width="416dp"
+        android:layout_height="180dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewPager" />
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPager1"
+        android:layout_width="410dp"
+        android:layout_height="154dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/videoView" />
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="0dp"
+        android:layout_height="180dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topbar"
+        app:layout_constraintVertical_bias="0.0">
+
+    </androidx.viewpager.widget.ViewPager>
+
     <com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx
         android:id="@+id/botbar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
+        android:background="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        android:background="#FFFFFF"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/bot_bar_items" />
+        app:menu="@menu/bot_bar_items">
+
+    </com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

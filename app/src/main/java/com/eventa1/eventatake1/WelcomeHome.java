@@ -8,14 +8,20 @@ import androidx.annotation.NonNull;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.ArraySet;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -26,6 +32,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -44,7 +51,7 @@ public class WelcomeHome extends AppCompatActivity implements IfFirebaseLoad {
     private String usrName;
     private FirebaseAuth mAuth;
     private viewPagerAdapter myAdapter;
-    private ViewPager viewPager;
+    private ViewPager viewPager,viewPager1;
     private IfFirebaseLoad ifFirebaseLoad;
     private final static int ACTIVITY_NUMBER=0;
 
@@ -55,12 +62,30 @@ public class WelcomeHome extends AppCompatActivity implements IfFirebaseLoad {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome_home);
         prefs = getSharedPreferences(CHAT_PREFS, MODE_PRIVATE);
+        VideoView videoView=findViewById(R.id.videoView);
+        videoView.setVideoURI(Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.credenz1));
+       // videoView.setMediaController(new MediaController(this));
+        videoView.requestFocus();
+        videoView.start();
 
+        videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        // not playVideo
+                        // playVideo();
+
+                        mp.start();
+                    }
+                });
 
         mUserName = findViewById(R.id.usrnamehome);
         ifFirebaseLoad = this;
         getListItems();
         viewPager = findViewById(R.id.viewPager);
+        viewPager1=findViewById(R.id.viewPager1);
+        ImageAdapter adapter=new ImageAdapter(this);
+        viewPager1.setAdapter(adapter);
 
         viewPagerAdapter viewPagerAdapter = new viewPagerAdapter(this);
         viewPager.setPageTransformer(true,new DepthPageTransformer());
