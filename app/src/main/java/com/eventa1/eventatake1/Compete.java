@@ -1,6 +1,8 @@
 package com.eventa1.eventatake1;
 
-public class Compete {
+import java.io.Serializable;
+
+public class Compete implements Serializable {
     private String evename2,des2,text;
     private int pric;
 

@@ -1,16 +1,35 @@
 package com.eventa1.eventatake1;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.util.ArraySet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
+import static android.content.Context.MODE_PRIVATE;
+import static com.eventa1.eventatake1.MainActivity.CHAT_PREFS;
+import static com.eventa1.eventatake1.MainActivity.FAVEVENTS_LIST;
+import static com.eventa1.eventatake1.MainActivity.USER_ID;
 
 
 /**
@@ -21,7 +40,7 @@ import android.widget.ListView;
  * Use the {@link PastEventsFrag#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PastEventsFrag extends Fragment {
+public class PastEventsFrag extends Fragment implements BookedLoad {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -30,7 +49,15 @@ public class PastEventsFrag extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    private List<BookedEvents> bookList= new ArrayList<>();
+    //private OnFragmentInteractionListener mListener;
+    private SharedPreferences prefs;
+    private ListView mListView;
+    private String usrID;
+    private View rootView;
+    private Context mContext;
+    private TextView textView;
+    private BookedLoad mIfFirebaseLoad;
     private OnFragmentInteractionListener mListener;
 
     public PastEventsFrag() {
@@ -63,15 +90,28 @@ public class PastEventsFrag extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        ListView mListView = getActivity().findViewById(R.id.pastlist);
-       // mListView.setAdapter(new );
+//        ListView mListView = getActivity().findViewById(R.id.pastlist);
+        SharedPreferences prefs = this.getActivity().getSharedPreferences(CHAT_PREFS, MODE_PRIVATE);
+        usrID = prefs.getString(USER_ID,null);
+        mIfFirebaseLoad = this;
+        // mListView.setAdapter(new );
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_past_events, container, false);
+        rootView = inflater.inflate(R.layout.fragment_past_events, container, false);
+        textView = rootView.findViewById(R.id.pastmsg);
+        Log.d("flashchat","CURR TEXT : " + textView.getText().toString());
+        //textView.setText("WELL GOT IN");
+        mListView = rootView.findViewById(R.id.pastlist);
+//        List<String> eveList = new Array
+        prefs = this.getActivity().getSharedPreferences(CHAT_PREFS,MODE_PRIVATE);
+        getBookedEvents();
+        Log.d("flashchatad","ListView should be set");
+        mContext = container.getContext();
+        return rootView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -112,4 +152,65 @@ public class PastEventsFrag extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+    private void getBookedEvents(){
+        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("BookedEvents");
+        dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.hasChild(usrID)){
+                    final List<BookedEvents> booklist = new ArrayList<>();
+                    //dataSnapshot = dataSnapshot.child(usrID);
+                    DatabaseReference dbRefin = FirebaseDatabase.getInstance().getReference("BookedEvents").child(usrID);
+                    dbRefin.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            for(DataSnapshot postSnapshot : dataSnapshot.getChildren()){
+                                BookedEvents bookedEvents = dataSnapshot.child(postSnapshot.getKey()).getValue(BookedEvents.class);
+                                booklist.add(bookedEvents);
+                                Log.d("flachchatss","KEY FOUND : " + bookedEvents.getEveName());
+                            }
+                            Log.d("flachchat","FOUND EVENTS : " + booklist);
+                            mIfFirebaseLoad.onFirebaseLoadSuccess(booklist);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+//                    Log.d("flachchat","CHILDERN : " + dataSnapshot.getChildren());
+
+                }else{
+                    List<BookedEvents> emptylist = new ArrayList<>();
+                    mIfFirebaseLoad.onFirebaseLoadSuccess(emptylist);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+    @Override
+    public void onFirebaseLoadSuccess(List<BookedEvents> list) {
+        if(list.size()>0){
+            textView.setVisibility(View.INVISIBLE);
+        } else {
+//            Set<String> favEvents = new ArraySet<>();
+//            prefs.edit().putStringSet(FAVEVENTS_LIST,favEvents).apply();
+            textView.setVisibility(View.VISIBLE);
+            mListView.setVisibility(View.INVISIBLE);
+        }
+//        Log.d("flashchat","ROOTVIEW : " + mListView.toString());
+        Log.d("flachchat","SENDING LIST : " + list);
+        mListView.setAdapter(new BookedEventsAdapter(list,mContext));
+    }
+
+    @Override
+    public void onFirebaseLoadFail(String message) {
+
+    }
+
+
 }

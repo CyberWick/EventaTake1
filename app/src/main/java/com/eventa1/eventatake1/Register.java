@@ -11,6 +11,18 @@ public class Register {
         return Date;
     }
 
+    public Register(String col, String eve, String des, String cat, String image_url, String contact_number, String date, String endDate, List<String> mList) {
+        Col = col;
+        Eve = eve;
+        Des = des;
+        Cat = cat;
+        this.image_url = image_url;
+        this.contact_number = contact_number;
+        Date = date;
+        EndDate = endDate;
+        this.mList = mList;
+    }
+
     public void setDate(String date) {
         Date = date;
     }
