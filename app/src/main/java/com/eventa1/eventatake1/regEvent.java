@@ -9,6 +9,7 @@ import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -25,6 +26,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -37,6 +40,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
+
+import static com.eventa1.eventatake1.MainActivity.CHAT_PREFS;
+import static com.eventa1.eventatake1.MainActivity.USER_ID;
 
 //import com.google.firebase.database.DatabaseReference;
 
@@ -51,11 +57,13 @@ public class regEvent extends AppCompatActivity {
     ImageView imgView;
     private Uri filePath;
     private final int PICK_IMAGE_REQUEST = 71;
-    DatabaseReference reference;
+    DatabaseReference reference,ref1,ref2,ref3,ref4,ref5,ref6;
     Register register;
     List<String> mList=new ArrayList<>();
     FirebaseStorage storage;
     StorageReference storageReference;
+    //FirebaseUser currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
 
     /*@Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -149,11 +157,19 @@ public class regEvent extends AppCompatActivity {
         descrip=findViewById(R.id.descrip);
         // tvw= findViewById(R.id.editText1);
         addevent=findViewById(R.id.addevent);
+        ref1= FirebaseDatabase.getInstance().getReference().child("Technical");
+        ref2= FirebaseDatabase.getInstance().getReference().child("Cultural");
+        ref6= FirebaseDatabase.getInstance().getReference().child("Sports");
+        ref3= FirebaseDatabase.getInstance().getReference().child("Workshops");
+        ref4= FirebaseDatabase.getInstance().getReference().child("Seminar");
+        ref5= FirebaseDatabase.getInstance().getReference().child("Gaming");
         register=new Register();
-        reference= FirebaseDatabase.getInstance().getReference().child("Register");
+        reference= FirebaseDatabase.getInstance().getReference().child("Unconfirmed");
         yourEditText =  findViewById(R.id.date);
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
+        SharedPreferences prefs = getSharedPreferences(CHAT_PREFS, MODE_PRIVATE);
+        final String usrID = prefs.getString(USER_ID,null);
 
       /*  college.addTextChangedListener(loginTextWatcher);
         eventname.addTextChangedListener(loginTextWatcher);
@@ -263,31 +279,37 @@ public class regEvent extends AppCompatActivity {
                 if(tech.isChecked()){
                     //reference.child("1").setValue("Technical");
                     mList.add("Technical");
+                    ref1.child(register.getEve()).setValue(eve1);
                 }
                 if(cultural.isChecked()){
                     mList.add("Cultural");
+                    ref2.child(register.getEve()).setValue(eve1);
                 }
                 if(workshops.isChecked())
                 {
                     mList.add("Workshops");
+                    ref3.child(register.getEve()).setValue(eve1);
                 }
                 if(seminar.isChecked())
                 {
                     mList.add("Seminar");
+                    ref4.child(register.getEve()).setValue(eve1);
                 }
                 if(gaming.isChecked())
                 {
                     mList.add("Gaming");
+                    ref5.child(register.getEve()).setValue(eve1);
                 }
                 if(sports.isChecked())
                 {
                     mList.add("Sports");
+                    ref6.child(register.getEve()).setValue(eve1);
                 }
                 register.setmList(mList);
                 if(!col1.isEmpty() && !eve1.isEmpty() && !de.isEmpty() && !con.isEmpty() && !da.isEmpty() && !ed.isEmpty() && (sports.isChecked() || gaming.isChecked() || seminar.isChecked() || workshops.isChecked() || tech.isChecked() || cultural.isChecked()))
                 {
 
-                    reference.child(register.getEve()).setValue(register);
+                    reference.child(usrID).child(register.getEve()).setValue(register);
                     Intent k=new Intent(regEvent.this,Competition.class);
                     k.putExtra("eventnam",  eventname.getText().toString());
                     startActivity(k);

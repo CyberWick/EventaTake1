@@ -7,10 +7,11 @@
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/hostedtext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="No Events Hosted yet"
         android:layout_gravity="center"
+        android:text="No Events Hosted yet"
         android:textAlignment="center"></TextView>
     <ListView
         android:id = "@+id/hostlist"
