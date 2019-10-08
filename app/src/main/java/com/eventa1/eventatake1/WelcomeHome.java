@@ -19,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,6 +54,7 @@ public class WelcomeHome extends AppCompatActivity implements IfFirebaseLoad {
     private FirebaseAuth mAuth;
     private viewPagerAdapter myAdapter;
     private ViewPager viewPager,viewPager1;
+    private ImageView i;
     private IfFirebaseLoad ifFirebaseLoad;
     private final static int ACTIVITY_NUMBER=0;
 
@@ -87,10 +89,16 @@ public class WelcomeHome extends AppCompatActivity implements IfFirebaseLoad {
         viewPager1=findViewById(R.id.viewPager1);
         ImageAdapter adapter=new ImageAdapter(this);
         viewPager1.setAdapter(adapter);
-
+        i=findViewById(R.id.r1);
         viewPagerAdapter viewPagerAdapter = new viewPagerAdapter(this);
         viewPager.setPageTransformer(true,new DepthPageTransformer());
-
+        i.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent b=new Intent(WelcomeHome.this,regEvent.class);
+                startActivity(b);
+            }
+        });
         readData();
         BottomNavigationViewEx bottomNavigationViewEx = findViewById(R.id.botbar);
         BottomNavHelper.enableNavigation(WelcomeHome.this,bottomNavigationViewEx);

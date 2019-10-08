@@ -20,12 +20,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="14sp"></TextView>
-        <TextView
-            android:id="@+id/comp_desc"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"></TextView>
+
         <TextView
             android:id="@+id/comp_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></TextView>
+
+        <TextView
+            android:id="@+id/comp_desc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"></TextView>
 
