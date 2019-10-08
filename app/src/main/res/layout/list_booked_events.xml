@@ -1,40 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="vertical" android:layout_width="350dp"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_horizontal"
+    android:background="@color/white">
 
     <ImageView
         android:id="@+id/bok_poster"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="350dp"
+        android:layout_height="200dp"
         app:srcCompat="@drawable/imagepos" />
 
     <TextView
         android:id="@+id/bok_compname"
-        android:layout_width="match_parent"
+        android:layout_width="350dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/white"
         android:layout_height="30dp"
-        android:textSize="30dp"
+        android:textSize="25dp"
+
         android:text="TextView" />
 
     <TextView
         android:id="@+id/bok_evename"
-        android:layout_width="match_parent"
+
         android:layout_height="wrap_content"
-        android:textSize="20dp"
+        android:layout_width="350dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/white"
+        android:textSize="15dp"
         android:text="TextView" />
 
     <TextView
         android:id="@+id/bok_transid"
-        android:layout_width="match_parent"
+        android:layout_width="350dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/white"
         android:layout_height="wrap_content"
-        android:textSize="20dp"
+
+        android:textSize="10dp"
         android:text="TextView" />
 
     <TextView
         android:id="@+id/bok_price"
-        android:layout_width="match_parent"
+        android:layout_width="350dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/white"
         android:layout_height="wrap_content"
-        android:textSize="20dp"
-        android:text="TextView" />
+        android:textSize="15dp"
+        android:text="TextView"
+        android:shadowDy="@android:integer/config_longAnimTime"/>
 </LinearLayout>

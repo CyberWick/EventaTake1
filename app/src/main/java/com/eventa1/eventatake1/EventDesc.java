@@ -83,6 +83,7 @@ public class EventDesc extends AppCompatActivity implements IfFirebaseLoad_comp 
                     Bundle bundle = getIntent().getExtras();
                     String eveName = bundle.getString("eventName");
                     Log.d("flashchat","LOOKING FOR : " + eveName);
+                if (dataSnapshot.hasChild(eveName)) {
                     register_event = dataSnapshot.child(eveName).getValue(Register.class);
 //                    Log.d("flashchat","Read EVENT NAME : " + register_event.getEve());
                     Picasso.with(EventDesc.this).load(register_event.getImage_url()).into(imageView);
@@ -90,15 +91,47 @@ public class EventDesc extends AppCompatActivity implements IfFirebaseLoad_comp 
                     textLoc.setText(register_event.getCol());
                     textName.setText(register_event.getEve());
                     dataSnapshot = dataSnapshot.child(eveName).child("Compete");
-                    for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
 //                        Log.d("flashchat", postSnapshot.getKey());
                         Compete temp = dataSnapshot.child(postSnapshot.getKey()).getValue(Compete.class);
                         compList.add(temp.getEvename2());
 //                        Log.d("flashchat", "IN BOOKMARKS" + temp.getEvename2());
-                        compMap.put(temp.getEvename2(),temp);
+                        compMap.put(temp.getEvename2(), temp);
                     }
-                ifFirebaseLoad.onFirebaseLoadSuccess(compList,compMap);
+                    ifFirebaseLoad.onFirebaseLoadSuccess(compList, compMap,"YES");
+                }else {
+                    DatabaseReference dbusr = FirebaseDatabase.getInstance().getReference("Unconfirmed").child(usrID);
+                    dbusr.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            Bundle bundle = getIntent().getExtras();
+                            String eveName = bundle.getString("eventName");
+                            Log.d("flashchat","LOOKING FOR IN UNCONFIRMED: " + eveName);
+                            register_event = dataSnapshot.child(eveName).getValue(Register.class);
+//                    Log.d("flashchat","Read EVENT NAME : " + register_event.getEve());
+                            Log.d("flashchat","EVENT : " + register_event.getEve());
+                            Picasso.with(EventDesc.this).load(register_event.getImage_url()).into(imageView);
+                            textDesc.setText(register_event.getDes());
+                            textLoc.setText(register_event.getCol());
+                            textName.setText(register_event.getEve());
+                            dataSnapshot = dataSnapshot.child(eveName).child("Compete");
+                            for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+//                        Log.d("flashchat", postSnapshot.getKey());
+                                Compete temp = dataSnapshot.child(postSnapshot.getKey()).getValue(Compete.class);
+                                compList.add(temp.getEvename2());
+//                        Log.d("flashchat", "IN BOOKMARKS" + temp.getEvename2());
+                                compMap.put(temp.getEvename2(), temp);
+                                likeImage.setVisibility(View.INVISIBLE);
+                            }
+                            ifFirebaseLoad.onFirebaseLoadSuccess(compList, compMap,"NO");
+                        }
 
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+                }
             }
 
             @Override
@@ -109,8 +142,8 @@ public class EventDesc extends AppCompatActivity implements IfFirebaseLoad_comp 
     }
 
     @Override
-    public void onFirebaseLoadSuccess(List<String> compList, HashMap<String, Compete> hashMap) {
-        expandableListView.setAdapter(new ExpandableAdapter(this,compList,hashMap,register_event.getEve()));
+    public void onFirebaseLoadSuccess(List<String> compList, HashMap<String, Compete> hashMap,String status) {
+        expandableListView.setAdapter(new ExpandableAdapter(this,compList,hashMap,register_event.getEve(),status));
     }
 
     @Override

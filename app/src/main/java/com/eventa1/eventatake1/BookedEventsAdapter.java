@@ -35,7 +35,6 @@ public class BookedEventsAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-//        Log.d("flaschat","SIZE : " + events.size());
         if(events.size()==0)
             return 1;
         return events.size();
@@ -43,15 +42,11 @@ public class BookedEventsAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-
-//        Log.d("flashchat","GETITEM getView");
         return this.events.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-
-//        Log.d("flashchat","POS getView");
         return position;
     }
     public static class ViewHolder1{
@@ -60,8 +55,6 @@ public class BookedEventsAdapter extends BaseAdapter {
         public TextView eveName;
         public TextView price;
         public TextView transID;
-        //        public TextView text1;
-//        public TextView textWide;
         public ImageView image;
 
     }
@@ -75,12 +68,8 @@ public class BookedEventsAdapter extends BaseAdapter {
             Log.d("flashchat","VIEW IS NULL");
             view = layoutInflater.inflate(R.layout.list_booked_events,
                     null); //Layout of an item of a ListView
-            //viewHolder = new ViewHolder();
+
         }
-//        else {
-//            viewHolder = (ViewHolder) view.getTag();
-//            Log.d("flashchat","VIEW NOT NULL");
-//        }
         Log.d("flachchatss","BOOKLIST : " + events);
         viewHolder = new ViewHolder1();
         viewHolder.compName = view.findViewById(R.id.bok_compname);
@@ -96,22 +85,11 @@ public class BookedEventsAdapter extends BaseAdapter {
             Log.d("flashchat", "FOUND"+viewHolder.compName.getText().toString());
             viewHolder.compName.setText(events.get(position).getCompName());
             viewHolder.eveName.setText(events.get(position).getEveName());
-            viewHolder.transID.setText(events.get(position).getTansID());
+            viewHolder.transID.setText("Transaction ID : " + events.get(position).getTansID());
             viewHolder.price.setText(events.get(position).getPrice());
             Picasso.with(context).load(events.get(position).getImage_url()).into(viewHolder.image);
 
         }
-//        view.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent1 = new Intent(context,EventDesc.class);
-//                intent1.putExtra("eventName",events.get(position).getTitile());
-//                //intent1.putExtr;
-//                Log.d("flashchat","Going to event desc with " + events.get(position).getTitile());
-//                context.startActivity(intent1);
-//                //context.finish();
-//            }
-//        });
         return view;
     }
 }

@@ -72,10 +72,6 @@ public class CustomAdapter extends BaseAdapter {
                     null); //Layout of an item of a ListView
             //viewHolder = new ViewHolder();
         }
-//        else {
-//            viewHolder = (ViewHolder) view.getTag();
-//            Log.d("flashchat","VIEW NOT NULL");
-//        }
         viewHolder = new FavEventsAdapter.ViewHolder();
         viewHolder.text = view.findViewById(R.id.eventName);
         if(registers.size()<=0){

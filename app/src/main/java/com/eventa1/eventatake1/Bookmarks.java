@@ -17,11 +17,11 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Bookmarks extends AppCompatActivity implements IfFirebaseLoad {
+public class Bookmarks extends AppCompatActivity implements HostFirebase {
     private final static int ACTIVITY_NUMBER = 2;
-    private List<EventsInfo> eveList = new ArrayList<>();
+    private List<Register> eveList = new ArrayList<>();
     private ListView listView;
-    private IfFirebaseLoad ifFirebaseLoad;
+    private HostFirebase ifFirebaseLoad;
 //    private String[] events = {"Credenz","Pulzion"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,9 +52,9 @@ public class Bookmarks extends AppCompatActivity implements IfFirebaseLoad {
                 Log.d("flashchat","Searching for EVENTS");
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                     Log.d("flashchat", postSnapshot.getKey());
-                    EventsInfo temp = dataSnapshot.child(postSnapshot.getKey()).getValue(EventsInfo.class);
+                    Register temp = dataSnapshot.child(postSnapshot.getKey()).getValue(Register.class);
                     eveList.add(temp);
-                    Log.d("flashchat", "IN BOOKMARKS" + temp.getTitile());
+                    Log.d("flashchat", "IN BOOKMARKS" + temp.getEve());
 //                    Log.d("flashchat","with IMAGE url  : " + temp.getImage());
 
                 }
@@ -69,9 +69,10 @@ public class Bookmarks extends AppCompatActivity implements IfFirebaseLoad {
         });
     }
 
+
+
     @Override
-    public void onFirebaseLoadSuccess(List<EventsInfo> list) {
-        //listView = (ListView)findViewById(R.id.listView1);
+    public void onFirebaseLoadSuccess(List<Register> list) {
         Log.d("flashchat","SENDING EVELIST " + Integer.toString(eveList.size()));
         listView.setAdapter(new FavEventsAdapter(list,Bookmarks.this));
     }

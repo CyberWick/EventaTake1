@@ -114,18 +114,18 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 if (snapshot.hasChild(usrID)) {
-                    Log.d("flashchat","FAV AlREADY EXISTS");
+                    Log.d("flashchatLOG","FAV AlREADY EXISTS");
                     dbRef.child(usrID).child("EventName").addValueEventListener(new ValueEventListener() {
                         Set<String> favEvents = new ArraySet<>();
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             favEvents = new ArraySet<>();
-                            Log.d("flashchat","BEFORE ADDING " + favEvents.size());
+                            Log.d("flashchatLOG","BEFORE ADDING " + favEvents.size());
                             for(DataSnapshot snapshot1 : dataSnapshot.getChildren()){
-                                Log.d("flashchat","FOUND " + snapshot1.getKey());
+                                Log.d("flashchatLOG","FOUND " + snapshot1.getKey());
                                 favEvents.add(snapshot1.getKey());
                             }
-                            Log.d("flashchat","SIZE OF FAVS IN LOGIN : " + favEvents.size());
+                            Log.d("flashchatLOG","SIZE OF FAVS IN LOGIN : " + favEvents.size());
                             prefs.edit().putStringSet(FAVEVENTS_LIST,favEvents).apply();
                         }
 

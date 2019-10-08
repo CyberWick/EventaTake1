@@ -42,15 +42,16 @@ public class Search extends AppCompatActivity implements RegisterLoad {
     private ListView mlistt,Eventlist;
     private CardView cardView;
 
-    String[] technical= {"Tech","bad","cool","hjj"};
+//    String[] technical= {"Tech","bad","cool","hjj"};
 
     private ArrayList<String> events=new ArrayList<>();
-//    private ArrayAdapter<String> adapter;
+    private ArrayAdapter<String> adapter;
 
 
     SearchView button;
     GridLayout gid;
     TextView text;
+    private TextView noFound;
     CardView card,cardt,cardg,cards,cardf,cardo;
     ListView mlist;
     private final static int ACTIVITY_NUMBER = 1;
@@ -65,7 +66,9 @@ public class Search extends AppCompatActivity implements RegisterLoad {
         menuItem.setChecked(true);
 
         Eventlist= findViewById(R.id.listview);
-
+        noFound = findViewById(R.id.nofoundmsg);
+        noFound.setVisibility(View.INVISIBLE);
+        // mysearchview=findViewById(R.id.searchView);
 
         button = findViewById(R.id.searchView);
         gid= findViewById(R.id.grid);
@@ -79,8 +82,68 @@ public class Search extends AppCompatActivity implements RegisterLoad {
         mlistt= findViewById(R.id.listview);
 
         ifFirebaseLoad = this;
-//            adapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,events);
-//            Eventlist.setAdapter(adapter);
+        adapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,events);
+        Eventlist.setAdapter(adapter);
+
+
+        button.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(final String s) {
+
+                mRef = FirebaseDatabase.getInstance().getReference("Register");
+                mRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        List<Register> regList = new ArrayList<>();
+                        for(DataSnapshot temp : dataSnapshot.getChildren()){
+                            //Log.d("searchss","FOUND EVENT : " + temp.getKey());
+                            if(temp.getKey().contains(s)){
+                                Register regTemp =dataSnapshot.child(temp.getKey()).getValue(Register.class);
+                                regList.add(regTemp);
+                                Log.d("searchss","ADDED  : " + regTemp.getEve());
+                            }
+                        }
+                        ifFirebaseLoad.onFirebaseLoadSuccess(regList);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(final String s) {
+                //      mlist.setVisibility(View.VISIBLE);
+                mRef = FirebaseDatabase.getInstance().getReference("Register");
+                mRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        List<Register> regList = new ArrayList<>();
+                        for(DataSnapshot temp : dataSnapshot.getChildren()){
+                            int i=0;
+                            //Log.d("searchss","FOUND EVENT : " + temp.getKey());
+                            if(temp.getKey().contains(s)){
+                                Register regTemp =dataSnapshot.child(temp.getKey()).getValue(Register.class);
+                                regList.add(regTemp);
+                                Log.d("searchss","ADDED  : " + regList.get(i).getEve());
+                                i++;
+                            }
+                        }
+                        Log.d("searchss","LIST SIZEE PASSED FROM SEARCHVIEW : " + regList.toString());
+                        ifFirebaseLoad.onFirebaseLoadSuccess(regList);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+                return false;
+            }
+        });
 
 
         mlistt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -91,42 +154,376 @@ public class Search extends AppCompatActivity implements RegisterLoad {
         });
         cardt.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
+                // card.setVisibility(View.INVISIBLE);
+                mlistt.setVisibility(View.VISIBLE);
+                mRef= FirebaseDatabase.getInstance().getReference("Cultural");
                 gid.setVisibility(View.INVISIBLE);
                 text.setVisibility(View.INVISIBLE);
+                final List<Register> elist=new ArrayList<>();
+                final Set<String> value = new ArraySet<>();
+                DatabaseReference db= FirebaseDatabase.getInstance().getReference("Register");
+                mRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                        //String value;
+
+
+                        for (DataSnapshot temp : dataSnapshot.getChildren()) {
+
+                            value.add(temp.getValue(String.class));
+                            Log.d("search", "FOund Technical " + value.toString());
+                        }
+                    }
+
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+                db.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                        for (DataSnapshot temp:dataSnapshot.getChildren()) {
+                            Log.d("search","FOUND IN EGISTER " + temp.getKey());
+                            for (String str : value) {
+                                if (str.equals(temp.getKey())) {
+                                    Log.d("search","MATEHCEd EGISTER " + temp.getKey());
+                                    Register evt = dataSnapshot.child(str).getValue(Register.class);
+                                    Log.d("flachchat","ADDED : " + evt.getEve());
+                                    elist.add(evt);
+
+                                }
+
+
+                            }
+                        }
+                        Log.d("search","Elist Size : " + elist.size());
+                        ifFirebaseLoad.onFirebaseLoadSuccess(elist);
+
+
+
+                        ;
+                        //events.add(value);
+                        //a//dapter.notifyDataSetChanged();
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
             }
+
+
+
         });
 
         cardg.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v)
+            {
+                // card.setVisibility(View.INVISIBLE);
+                mlistt.setVisibility(View.VISIBLE);
+                mRef= FirebaseDatabase.getInstance().getReference("Gaming");
                 gid.setVisibility(View.INVISIBLE);
                 text.setVisibility(View.INVISIBLE);
+                final List<Register> elist=new ArrayList<>();
+                final Set<String> value = new ArraySet<>();
+                DatabaseReference db= FirebaseDatabase.getInstance().getReference("Register");
+                mRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                        //String value;
+
+
+                        for (DataSnapshot temp : dataSnapshot.getChildren()) {
+
+                            value.add(temp.getValue(String.class));
+                            Log.d("search", "FOund Technical " + value.toString());
+                        }
+                    }
+
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+                db.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                        for (DataSnapshot temp:dataSnapshot.getChildren()) {
+                            Log.d("search","FOUND IN EGISTER " + temp.getKey());
+                            for (String str : value) {
+                                if (str.equals(temp.getKey())) {
+                                    Log.d("search","MATEHCEd EGISTER " + temp.getKey());
+                                    Register evt = dataSnapshot.child(str).getValue(Register.class);
+                                    Log.d("flachchat","ADDED : " + evt.getEve());
+                                    elist.add(evt);
+
+                                }
+
+
+                            }
+                        }
+                        Log.d("search","Elist Size : " + elist.size());
+                        ifFirebaseLoad.onFirebaseLoadSuccess(elist);
+
+
+
+                        ;
+                        //events.add(value);
+                        //a//dapter.notifyDataSetChanged();
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
             }
+
         });
 
         cards.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v)
+            {
+                // card.setVisibility(View.INVISIBLE);
+                mlistt.setVisibility(View.VISIBLE);
+                mRef= FirebaseDatabase.getInstance().getReference("Sports");
                 gid.setVisibility(View.INVISIBLE);
                 text.setVisibility(View.INVISIBLE);
+                final List<Register> elist=new ArrayList<>();
+                final Set<String> value = new ArraySet<>();
+                DatabaseReference db= FirebaseDatabase.getInstance().getReference("Register");
+                mRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                        //String value;
+
+
+                        for (DataSnapshot temp : dataSnapshot.getChildren()) {
+
+                            value.add(temp.getValue(String.class));
+                            Log.d("search", "FOund Technical " + value.toString());
+                        }
+                    }
+
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+                db.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                        for (DataSnapshot temp:dataSnapshot.getChildren()) {
+                            Log.d("search","FOUND IN EGISTER " + temp.getKey());
+                            for (String str : value) {
+                                if (str.equals(temp.getKey())) {
+                                    Log.d("search","MATEHCEd EGISTER " + temp.getKey());
+                                    Register evt = dataSnapshot.child(str).getValue(Register.class);
+                                    Log.d("flachchat","ADDED : " + evt.getEve());
+                                    elist.add(evt);
+
+                                }
+
+
+                            }
+                        }
+                        Log.d("search","Elist Size : " + elist.size());
+                        ifFirebaseLoad.onFirebaseLoadSuccess(elist);
+
+
+
+                        ;
+                        //events.add(value);
+                        //a//dapter.notifyDataSetChanged();
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
             }
         });
 
         cardf.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
+                // card.setVisibility(View.INVISIBLE);
+                mlistt.setVisibility(View.VISIBLE);
+                mRef= FirebaseDatabase.getInstance().getReference("Workshops");
                 gid.setVisibility(View.INVISIBLE);
                 text.setVisibility(View.INVISIBLE);
+                final List<Register> elist=new ArrayList<>();
+                final Set<String> value = new ArraySet<>();
+                DatabaseReference db= FirebaseDatabase.getInstance().getReference("Register");
+                mRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                        //String value;
+
+
+                        for (DataSnapshot temp : dataSnapshot.getChildren()) {
+
+                            value.add(temp.getValue(String.class));
+                            Log.d("search", "FOund Technical " + value.toString());
+                        }
+                    }
+
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+                db.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                        for (DataSnapshot temp:dataSnapshot.getChildren()) {
+                            Log.d("search","FOUND IN EGISTER " + temp.getKey());
+                            for (String str : value) {
+                                if (str.equals(temp.getKey())) {
+                                    Log.d("search","MATEHCEd EGISTER " + temp.getKey());
+                                    Register evt = dataSnapshot.child(str).getValue(Register.class);
+                                    Log.d("flachchat","ADDED : " + evt.getEve());
+                                    elist.add(evt);
+
+                                }
+
+
+                            }
+                        }
+                        Log.d("search","Elist Size : " + elist.size());
+                        ifFirebaseLoad.onFirebaseLoadSuccess(elist);
+
+
+
+                        ;
+                        //events.add(value);
+                        //a//dapter.notifyDataSetChanged();
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
             }
+
         });
 
 
         cardo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // card.setVisibility(View.INVISIBLE);
+                mlistt.setVisibility(View.VISIBLE);
+                mRef= FirebaseDatabase.getInstance().getReference("Other");
                 gid.setVisibility(View.INVISIBLE);
                 text.setVisibility(View.INVISIBLE);
+                final List<Register> elist=new ArrayList<>();
+                final Set<String> value = new ArraySet<>();
+                DatabaseReference db= FirebaseDatabase.getInstance().getReference("Register");
+                mRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                        //String value;
+
+
+                        for (DataSnapshot temp : dataSnapshot.getChildren()) {
+
+                            value.add(temp.getValue(String.class));
+                            Log.d("search", "FOund Technical " + value.toString());
+                        }
+                    }
+
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+                db.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                        for (DataSnapshot temp:dataSnapshot.getChildren()) {
+                            Log.d("search","FOUND IN EGISTER " + temp.getKey());
+                            for (String str : value) {
+                                if (str.equals(temp.getKey())) {
+                                    Log.d("search","MATEHCEd EGISTER " + temp.getKey());
+                                    Register evt = dataSnapshot.child(str).getValue(Register.class);
+                                    Log.d("flachchat","ADDED : " + evt.getEve());
+                                    elist.add(evt);
+
+                                }
+
+
+                            }
+                        }
+                        Log.d("search","Elist Size : " + elist.size());
+                        ifFirebaseLoad.onFirebaseLoadSuccess(elist);
+
+
+
+                        ;
+                        //events.add(value);
+                        //a//dapter.notifyDataSetChanged();
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
             }
         });
 
@@ -142,7 +539,11 @@ public class Search extends AppCompatActivity implements RegisterLoad {
                     text.setVisibility(View.VISIBLE);
                 }
             }
+
         });
+
+
+
 
 
         button.setOnClickListener(new View.OnClickListener() {
@@ -157,9 +558,21 @@ public class Search extends AppCompatActivity implements RegisterLoad {
 
 
                                       }
+
+
+
+
                                   }
 
         );
+
+
+
+
+
+
+
+
 
         card.setOnClickListener(new View.OnClickListener(){
 
@@ -242,7 +655,15 @@ public class Search extends AppCompatActivity implements RegisterLoad {
 
     @Override
     public void onFirebaseLoadSuccess(List<Register> list) {
-        Eventlist.setAdapter(new CustomAdapter(list,this));
+        Log.d("searchss","SIZE of LIST PASSED : " + list.toString() + "SIZE : " + list.size());
+        if(list.size()>0) {
+            mlistt.setVisibility(View.VISIBLE);
+            noFound.setVisibility(View.INVISIBLE);
+            Eventlist.setAdapter(new CustomAdapter(list, this));
+        }else {
+            mlistt.setVisibility(View.INVISIBLE);
+            noFound.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

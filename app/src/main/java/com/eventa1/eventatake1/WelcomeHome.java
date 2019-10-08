@@ -1,5 +1,6 @@
 package com.eventa1.eventatake1;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -62,22 +63,22 @@ public class WelcomeHome extends AppCompatActivity implements IfFirebaseLoad {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome_home);
         prefs = getSharedPreferences(CHAT_PREFS, MODE_PRIVATE);
-        VideoView videoView=findViewById(R.id.videoView);
-        videoView.setVideoURI(Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.credenz1));
-       // videoView.setMediaController(new MediaController(this));
-        videoView.requestFocus();
-        videoView.start();
-
-        videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-
-                    @Override
-                    public void onCompletion(MediaPlayer mp) {
-                        // not playVideo
-                        // playVideo();
-
-                        mp.start();
-                    }
-                });
+        //VideoView videoView=findViewById(R.id.videoView);
+        //videoView.setVideoURI(Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.credenz1));
+        //videoView.setMediaController(new MediaController(this));
+//        videoView.requestFocus();
+//        videoView.start();
+//
+//        videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//
+//                    @Override
+//                    public void onCompletion(MediaPlayer mp) {
+//                        // not playVideo
+//                        // playVideo();
+//
+//                        mp.start();
+//                    }
+//                });
 
         mUserName = findViewById(R.id.usrnamehome);
         ifFirebaseLoad = this;
@@ -96,7 +97,6 @@ public class WelcomeHome extends AppCompatActivity implements IfFirebaseLoad {
         Menu menu = bottomNavigationViewEx.getMenu();
         MenuItem menuItem = menu.getItem(ACTIVITY_NUMBER);
         menuItem.setChecked(true);
-//        GetFavourites();
     }
 
     private void getListItems() {
@@ -138,9 +138,7 @@ public class WelcomeHome extends AppCompatActivity implements IfFirebaseLoad {
             mUserName.setText("Hi," + usrname);
             usrName = mUserName.getText().toString();
         } else {
-            //FirebaseUser usr = bundle.get;
             final String usrID = bundle.getString("dbusr");
-//            String parts[] = email.split("@");
             Log.d("flashchat","Reading UID : " + usrID);
 
             dbRef = FirebaseDatabase.getInstance().getReference("users").child(usrID);
@@ -184,7 +182,6 @@ public class WelcomeHome extends AppCompatActivity implements IfFirebaseLoad {
         final DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("Favourites");
         final String usrID = prefs.getString(USER_ID,null);
         Log.d("flashchat1","In GET FAVOURITES");
-        //dbRef = dbRef.child()
         dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
@@ -213,13 +210,10 @@ public class WelcomeHome extends AppCompatActivity implements IfFirebaseLoad {
                         }
 
                     });
-//                }
                 } else {
                     Set<String> nullSet = new ArraySet<>();
                     prefs.edit().putStringSet(FAVEVENTS_LIST,nullSet).apply();
-//                    List<EventsInfo> favEveList1 = new ArrayList<>();
                     Log.d("flashchatad","NOT IN IF SIZE OF FAVEVELIST : " + nullSet.size());
-//                    ifFirebaseLoad.onFirebaseLoadSuccess(favEveList1);
                 }
             }
 
@@ -231,6 +225,14 @@ public class WelcomeHome extends AppCompatActivity implements IfFirebaseLoad {
             }
         });
 
+    }
+    @Override
+    public void onBackPressed() {
+        Intent start = new Intent(Intent.ACTION_MAIN);
+        start.addCategory(Intent.CATEGORY_HOME);
+        start.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        start.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(start);
     }
 }
 

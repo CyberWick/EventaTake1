@@ -31,59 +31,18 @@ public class ExpandableAdapter extends BaseExpandableListAdapter {
     private Context context;
     private List<String> expandableListTitle;
     private HashMap<String, Compete> expandableListDetail;
+    private String status;
     private String eveName;
     Button bookie;
 
-    public ExpandableAdapter(Context context, List<String> expandableListTitle, HashMap<String, Compete> expandableListDetail,String eveName) {
+    public ExpandableAdapter(Context context, List<String> expandableListTitle, HashMap<String, Compete> expandableListDetail,String eveName,String status) {
         this.context = context;
         this.expandableListTitle = expandableListTitle;
         this.expandableListDetail = expandableListDetail;
         this.eveName = eveName;
+        this.status = status;
     }
 
-    public void confirm()
-    {
-        alertDialog();
-    }
-    private void alertDialog() {
-//        AlertDialog.Builder dialog=new AlertDialog.Builder(context);
-//        dialog.setMessage("Please Select any option");
-//        dialog.setTitle("DO YOU WANT TO BOOK EVENT");
-//        dialog.setPositiveButton("YES",
-//                new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog,
-//                                        int which) {
-//                        Toast.makeText(context.getApplicationContext(),"Yes is clicked",Toast.LENGTH_LONG).show();
-////                        PaytmPGService Service = PaytmPGService.getStagingService();
-//                        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("Register");
-//                        dbRef = dbRef.child(expandableListDetail.get(expandableListTitle.get(0)).getEvename2());
-//                        dbRef.addValueEventListener(new ValueEventListener() {
-//                            @Override
-//                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                                Compete =
-//                            }
-//
-//                            @Override
-//                            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                            }
-//                        })
-//                        Intent b=new Intent(context, Receipt.class);
-//                        Log.d("flashchat","Opening Receipt");
-//
-//                        context.startActivity(b);
-//
-//                    }
-//                });
-//        dialog.setNegativeButton("cancel",new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                Toast.makeText(context.getApplicationContext(),"cancel is clicked",Toast.LENGTH_LONG).show();
-//            }
-//        });
-//        AlertDialog alertDialog=dialog.create();
-//        alertDialog.show();
-    }
     @Override
     public int getGroupCount() {
         return this.expandableListTitle.size();
@@ -153,50 +112,40 @@ public class ExpandableAdapter extends BaseExpandableListAdapter {
 
         textPrice.setText("Price : " + Integer.toString(temp.getPric()));
         bookie=convertView.findViewById(R.id.bookie);
-        bookie.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AlertDialog.Builder dialog=new AlertDialog.Builder(context);
-                dialog.setMessage("Please Select any option");
-                dialog.setTitle("DO YOU WANT TO BOOK EVENT");
-                dialog.setPositiveButton("YES",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,
-                                                int which) {
-                                Toast.makeText(context.getApplicationContext(),"Yes is clicked",Toast.LENGTH_LONG).show();
-//                        PaytmPGService Service = PaytmPGService.getStagingService();
-//                                DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("Register");
-//                                dbRef = dbRef.child(expandableListDetail.get(expandableListTitle.get(childPosition)).getEvename2());
-//                                dbRef.addValueEventListener(new ValueEventListener() {
-//                                    @Override
-//                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//
-//                                    }
-//
-//                                    @Override
-//                                    public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                                    }
-//                                });
-                                Intent b=new Intent(context, Receipt.class);
-                                b.putExtra("CompDetails", (Serializable) expandableListDetail.get(expandableListTitle.get(groupPosition)));
-                                b.putExtra("EventName",eveName);
-                                Log.d("flashchat","Opening Receipt");
+        if(status.equals("YES")) {
+            bookie.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+                    dialog.setMessage("Please Select any option");
+                    dialog.setTitle("DO YOU WANT TO BOOK EVENT");
+                    dialog.setPositiveButton("YES",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog,
+                                                    int which) {
+                                    Toast.makeText(context.getApplicationContext(), "Yes is clicked", Toast.LENGTH_LONG).show();
+                                  Intent b = new Intent(context, Receipt.class);
+                                    b.putExtra("CompDetails", (Serializable) expandableListDetail.get(expandableListTitle.get(groupPosition)));
+                                    b.putExtra("EventName", eveName);
+                                    Log.d("flashchat", "Opening Receipt");
 
-                                context.startActivity(b);
+                                    context.startActivity(b);
 
-                            }
-                        });
-                dialog.setNegativeButton("cancel",new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(context.getApplicationContext(),"cancel is clicked",Toast.LENGTH_LONG).show();
-                    }
-                });
-                AlertDialog alertDialog=dialog.create();
-                alertDialog.show();
-            }
-        });
+                                }
+                            });
+                    dialog.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Toast.makeText(context.getApplicationContext(), "cancel is clicked", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                    AlertDialog alertDialog = dialog.create();
+                    alertDialog.show();
+                }
+            });
+        }else {
+            bookie.setText("CAN'T BOOK UNCONFIRMED EVENTS" );
+        }
         return convertView;
     }
 

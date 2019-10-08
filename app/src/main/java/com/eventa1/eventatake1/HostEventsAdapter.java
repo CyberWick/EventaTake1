@@ -82,7 +82,7 @@ public class HostEventsAdapter extends BaseAdapter {
         else {
             Log.d("flashchat", "FOUND"+viewHolder.text.getText().toString());
             Log.d("flashchatad","RegList : " + regList.get(position));
-            //viewHolder.text.setText(regList.get(position).getEve());
+            viewHolder.text.setText(regList.get(position).getEve());
 
         }
         view.setOnClickListener(new View.OnClickListener() {

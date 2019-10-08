@@ -279,31 +279,31 @@ public class regEvent extends AppCompatActivity {
                 if(tech.isChecked()){
                     //reference.child("1").setValue("Technical");
                     mList.add("Technical");
-                    ref1.child(register.getEve()).setValue(eve1);
+                    //ref1.child(register.getEve()).setValue(eve1);
                 }
                 if(cultural.isChecked()){
                     mList.add("Cultural");
-                    ref2.child(register.getEve()).setValue(eve1);
+                    //ref2.child(register.getEve()).setValue(eve1);
                 }
                 if(workshops.isChecked())
                 {
                     mList.add("Workshops");
-                    ref3.child(register.getEve()).setValue(eve1);
+                    //ref3.child(register.getEve()).setValue(eve1);
                 }
                 if(seminar.isChecked())
                 {
                     mList.add("Seminar");
-                    ref4.child(register.getEve()).setValue(eve1);
+                    //ref4.child(register.getEve()).setValue(eve1);
                 }
                 if(gaming.isChecked())
                 {
                     mList.add("Gaming");
-                    ref5.child(register.getEve()).setValue(eve1);
+                    //ref5.child(register.getEve()).setValue(eve1);
                 }
                 if(sports.isChecked())
                 {
                     mList.add("Sports");
-                    ref6.child(register.getEve()).setValue(eve1);
+                    //ref6.child(register.getEve()).setValue(eve1);
                 }
                 register.setmList(mList);
                 if(!col1.isEmpty() && !eve1.isEmpty() && !de.isEmpty() && !con.isEmpty() && !da.isEmpty() && !ed.isEmpty() && (sports.isChecked() || gaming.isChecked() || seminar.isChecked() || workshops.isChecked() || tech.isChecked() || cultural.isChecked()))

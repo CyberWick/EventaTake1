@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.ArraySet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,9 +23,11 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import static android.content.Context.MODE_PRIVATE;
 import static com.eventa1.eventatake1.MainActivity.CHAT_PREFS;
+import static com.eventa1.eventatake1.MainActivity.FAVEVENTS_LIST;
 import static com.eventa1.eventatake1.MainActivity.USER_ID;
 
 
@@ -78,8 +81,6 @@ public class HostedEventsFrag extends Fragment implements HostFirebase{
         usrID = prefs.getString(USER_ID,null);
         mHostFire= this;
 
-
-        //mListView.setAdapter(new FavEventsAdapter());
     }
 
     @Override
@@ -91,12 +92,6 @@ public class HostedEventsFrag extends Fragment implements HostFirebase{
         Log.d("flashchat","CURR TEXT : " + textView.getText().toString());
         //textView.setText("WELL GOT IN");
         mListView = rootView.findViewById(R.id.hostlist);
-//        List<String> eveList = new ArrayList<>();
-//        eveList.add("This");
-//        eveList.add("iS");
-//        eveList.add("Sparta");
-//        ArrayAdapter<String> usrItems= new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,eveList);
-        //mListView.setAdapter(usrItems);
         getHostEvents();
         Log.d("flashchat","ListView should be set");
         mContext = container.getContext();
@@ -127,8 +122,6 @@ public class HostedEventsFrag extends Fragment implements HostFirebase{
         mListener = null;
     }
     private void getHostEvents() {
-        //FirebaseUser user= FirebaseAuth.getInstance().getCurrentUser();
-        //String userid=user.getUid();
 
         DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("Unconfirmed");
         dbRef.addValueEventListener(new ValueEventListener() {
@@ -141,16 +134,14 @@ public class HostedEventsFrag extends Fragment implements HostFirebase{
                     for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                         Log.d("flashchatad", "USER"+postSnapshot.getKey());
 
-                        DataSnapshot temp = dataSnapshot.child(usrID);//getValue(Register.class);
+                       dataSnapshot = dataSnapshot.child(usrID);//getValue(Register.class);
 
-                        for (DataSnapshot postSnapshot1 : temp.getChildren()) {
+                        for (DataSnapshot postSnapshot1 : dataSnapshot.getChildren()) {
                             Register tempo = dataSnapshot.child(postSnapshot1.getKey()).getValue(Register.class);
                             hostList.add(tempo);
-                            Log.d("flashchatad", "event"+postSnapshot1.getKey());
-                        }
 
-//                        Log.d("flashchat", "IN BOOKMARKS" + temp.getEve());
-//                    Log.d("flashchat","with IMAGE url  : " + temp.getImage());
+                            Log.d("flashchatad", "event"+postSnapshot1.getKey() + "    " + tempo.getCol());
+                        }
 
                     }
                     mHostFire.onFirebaseLoadSuccess(hostList);
@@ -160,7 +151,6 @@ public class HostedEventsFrag extends Fragment implements HostFirebase{
                    List<Register> HostList1 = new ArrayList<>();
                     Log.d("flashchatad","NOT IN IF SIZE OF FAVEVELIST : " + HostList1.size());
                     mHostFire.onFirebaseLoadSuccess(HostList1);
-//                }
             }
             }
                 @Override
@@ -176,9 +166,11 @@ public class HostedEventsFrag extends Fragment implements HostFirebase{
     public void onFirebaseLoadSuccess(List<Register> list) {
         Log.d("flashchatad","SENDING RegLIST " + list);
 
-        //mListView = rootView.findViewById(R.id.favlist);
         if(list.size()>0){
             textView.setVisibility(View.INVISIBLE);
+        } else {
+            textView.setVisibility(View.VISIBLE);
+            mListView.setVisibility(View.INVISIBLE);
         }
         Log.d("flashchat","ROOTVIEW : " + mListView.toString());
         mListView.setAdapter(new HostEventsAdapter(list,mContext));

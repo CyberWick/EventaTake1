@@ -3,6 +3,7 @@ package com.eventa1.eventatake1;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -18,6 +19,9 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.eventa1.eventatake1.MainActivity.CHAT_PREFS;
+import static com.eventa1.eventatake1.MainActivity.USER_ID;
 
 public class Competition extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -56,11 +60,15 @@ public class Competition extends AppCompatActivity implements AdapterView.OnItem
         cate.add("Workshops");
         cate.add("Seminar");
         cate.add("Gaming");
+
+        SharedPreferences prefs = getSharedPreferences(CHAT_PREFS, MODE_PRIVATE);
+        final String usrID = prefs.getString(USER_ID,null);
+
         ArrayAdapter<String>dataAdapter=new ArrayAdapter<>(this,android.R.layout.simple_spinner_item,cate);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         categories.setAdapter(dataAdapter);
         compete=new Compete();
-        reference1= FirebaseDatabase.getInstance().getReference().child("Register");
+        reference1= FirebaseDatabase.getInstance().getReference().child("Unconfirmed").child(usrID);
 
         another.setOnClickListener(new View.OnClickListener() {
             @Override

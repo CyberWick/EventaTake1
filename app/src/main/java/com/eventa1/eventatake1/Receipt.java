@@ -52,9 +52,17 @@ public class Receipt extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Register register = dataSnapshot.getValue(Register.class);
-                Log.d("flashchat","LOADING IMAGE");
+                Log.d("flachchatss","LOADING IMAGE");
                 image_url = register.getImage_url();
+                Log.d("flachchatss","IMAGE IN onDATACHANGE : " + image_url);
                 Picasso.with(Receipt.this).load(register.getImage_url()).into(evePoster);
+                DatabaseReference dbRef1 = FirebaseDatabase.getInstance().getReference("BookedEvents");
+                SharedPreferences prefs = getSharedPreferences(CHAT_PREFS,MODE_PRIVATE);
+                String usrID = prefs.getString(USER_ID,null);
+                String uniqueID = UUID.randomUUID().toString();
+                BookedEvents bookedEvents = new BookedEvents(compName.getText().toString(),eveName,image_url,Price.getText().toString(),uniqueID);
+                Log.d("flachchatss","IMAGE IN RECEIPT : " + bookedEvents.getImage_url());
+                dbRef1.child(usrID).child(compName.getText().toString()).setValue(bookedEvents);
             }
 
             @Override
@@ -62,12 +70,7 @@ public class Receipt extends AppCompatActivity {
 
             }
         });
-        DatabaseReference dbRef1 = FirebaseDatabase.getInstance().getReference("BookedEvents");
-        SharedPreferences prefs = getSharedPreferences(CHAT_PREFS,MODE_PRIVATE);
-        String usrID = prefs.getString(USER_ID,null);
-        String uniqueID = UUID.randomUUID().toString();
-        BookedEvents bookedEvents = new BookedEvents(compName.getText().toString(),eveName,image_url,Price.getText().toString(),uniqueID);
-        dbRef1.child(usrID).child(compName.getText().toString()).setValue(bookedEvents);
+
 
         butOk = findViewById(R.id.rec_ok);
         butOk.setOnClickListener(new View.OnClickListener() {

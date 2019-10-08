@@ -168,6 +168,7 @@ public class PastEventsFrag extends Fragment implements BookedLoad {
                                 BookedEvents bookedEvents = dataSnapshot.child(postSnapshot.getKey()).getValue(BookedEvents.class);
                                 booklist.add(bookedEvents);
                                 Log.d("flachchatss","KEY FOUND : " + bookedEvents.getEveName());
+                                Log.d("flachchatss","Image_Url : " + bookedEvents.getImage_url());
                             }
                             Log.d("flachchat","FOUND EVENTS : " + booklist);
                             mIfFirebaseLoad.onFirebaseLoadSuccess(booklist);
@@ -197,8 +198,6 @@ public class PastEventsFrag extends Fragment implements BookedLoad {
         if(list.size()>0){
             textView.setVisibility(View.INVISIBLE);
         } else {
-//            Set<String> favEvents = new ArraySet<>();
-//            prefs.edit().putStringSet(FAVEVENTS_LIST,favEvents).apply();
             textView.setVisibility(View.VISIBLE);
             mListView.setVisibility(View.INVISIBLE);
         }

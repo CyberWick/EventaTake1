@@ -3,6 +3,7 @@ package com.eventa1.eventatake1;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -76,5 +77,13 @@ public class Profile extends AppCompatActivity {
         Intent i = new Intent(Profile.this, regEvent.class);
         startActivity(i);
         finish();
+    }
+    @Override
+    public void onBackPressed() {
+        Intent start = new Intent(Intent.ACTION_MAIN);
+        start.addCategory(Intent.CATEGORY_HOME);
+        start.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        start.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(start);
     }
 }
