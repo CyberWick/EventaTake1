@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">EventaTake1</string>
+    <string name="app_name">Eventa</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">Password too short or does not match</string>
     <string name="error_incorrect_password">This password is incorrect</string>

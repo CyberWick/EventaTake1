@@ -42,8 +42,6 @@ public class Search extends AppCompatActivity implements RegisterLoad {
     private ListView mlistt,Eventlist;
     private CardView cardView;
 
-//    String[] technical= {"Tech","bad","cool","hjj"};
-
     private ArrayList<String> events=new ArrayList<>();
     private ArrayAdapter<String> adapter;
 
@@ -116,7 +114,6 @@ public class Search extends AppCompatActivity implements RegisterLoad {
 
             @Override
             public boolean onQueryTextChange(final String s) {
-                //      mlist.setVisibility(View.VISIBLE);
                 mRef = FirebaseDatabase.getInstance().getReference("Register");
                 mRef.addValueEventListener(new ValueEventListener() {
                     @Override
@@ -124,7 +121,6 @@ public class Search extends AppCompatActivity implements RegisterLoad {
                         List<Register> regList = new ArrayList<>();
                         for(DataSnapshot temp : dataSnapshot.getChildren()){
                             int i=0;
-                            //Log.d("searchss","FOUND EVENT : " + temp.getKey());
                             if(temp.getKey().contains(s)){
                                 Register regTemp =dataSnapshot.child(temp.getKey()).getValue(Register.class);
                                 regList.add(regTemp);
@@ -156,7 +152,6 @@ public class Search extends AppCompatActivity implements RegisterLoad {
             @Override
             public void onClick(View view)
             {
-                // card.setVisibility(View.INVISIBLE);
                 mlistt.setVisibility(View.VISIBLE);
                 mRef= FirebaseDatabase.getInstance().getReference("Cultural");
                 gid.setVisibility(View.INVISIBLE);
@@ -177,12 +172,6 @@ public class Search extends AppCompatActivity implements RegisterLoad {
                             Log.d("search", "FOund Technical " + value.toString());
                         }
                     }
-
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                    }
-
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
 
@@ -209,13 +198,6 @@ public class Search extends AppCompatActivity implements RegisterLoad {
                         }
                         Log.d("search","Elist Size : " + elist.size());
                         ifFirebaseLoad.onFirebaseLoadSuccess(elist);
-
-
-
-                        ;
-                        //events.add(value);
-                        //a//dapter.notifyDataSetChanged();
-
                     }
 
                     @Override
@@ -254,11 +236,6 @@ public class Search extends AppCompatActivity implements RegisterLoad {
                             Log.d("search", "FOund Technical " + value.toString());
                         }
                     }
-
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                    }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -329,12 +306,6 @@ public class Search extends AppCompatActivity implements RegisterLoad {
                             Log.d("search", "FOund Technical " + value.toString());
                         }
                     }
-
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                    }
-
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
 
@@ -361,12 +332,6 @@ public class Search extends AppCompatActivity implements RegisterLoad {
                         }
                         Log.d("search","Elist Size : " + elist.size());
                         ifFirebaseLoad.onFirebaseLoadSuccess(elist);
-
-
-
-                        ;
-                        //events.add(value);
-                        //a//dapter.notifyDataSetChanged();
 
                     }
 
@@ -633,12 +598,6 @@ public class Search extends AppCompatActivity implements RegisterLoad {
                         }
                         Log.d("search","Elist Size : " + elist.size());
                         ifFirebaseLoad.onFirebaseLoadSuccess(elist);
-
-
-
-                        ;
-                        //events.add(value);
-                        //a//dapter.notifyDataSetChanged();
 
                     }
 

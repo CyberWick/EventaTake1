@@ -82,7 +82,7 @@ public class EventDesc extends AppCompatActivity implements IfFirebaseLoad_comp 
 //                    Log.d("flashchat", dataSnapshot.getKey());
                     Bundle bundle = getIntent().getExtras();
                     String eveName = bundle.getString("eventName");
-                    Log.d("flashchat","LOOKING FOR : " + eveName);
+                    Log.d("flashchated","LOOKING FOR : " + eveName);
                 if (dataSnapshot.hasChild(eveName)) {
                     register_event = dataSnapshot.child(eveName).getValue(Register.class);
 //                    Log.d("flashchat","Read EVENT NAME : " + register_event.getEve());
@@ -106,10 +106,10 @@ public class EventDesc extends AppCompatActivity implements IfFirebaseLoad_comp 
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             Bundle bundle = getIntent().getExtras();
                             String eveName = bundle.getString("eventName");
-                            Log.d("flashchat","LOOKING FOR IN UNCONFIRMED: " + eveName);
+                            Log.d("flashchated","LOOKING FOR IN UNCONFIRMED: " + eveName);
                             register_event = dataSnapshot.child(eveName).getValue(Register.class);
 //                    Log.d("flashchat","Read EVENT NAME : " + register_event.getEve());
-                            Log.d("flashchat","EVENT : " + register_event.getEve());
+                            Log.d("flashchated","EVENT : " + register_event.getEve());
                             Picasso.with(EventDesc.this).load(register_event.getImage_url()).into(imageView);
                             textDesc.setText(register_event.getDes());
                             textLoc.setText(register_event.getCol());
