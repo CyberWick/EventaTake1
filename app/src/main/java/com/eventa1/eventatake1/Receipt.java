@@ -19,7 +19,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -64,19 +67,24 @@ public class Receipt extends AppCompatActivity {
                 final SharedPreferences prefs = getSharedPreferences(CHAT_PREFS,MODE_PRIVATE);
                 String usrID = prefs.getString(USER_ID,null);
                 final String uniqueID = UUID.randomUUID().toString();
-                final BookedEvents[] bookedEvents = {new BookedEvents(compName.getText().toString(), eveName, image_url, Price.getText().toString(), uniqueID)};
+                DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+                Date date = new Date();
+                final BookedEvents[] bookedEvents = {new BookedEvents(compName.getText().toString(), eveName, image_url, Price.getText().toString(), uniqueID,df.format(date))};
                 Log.d("flachchatss","IMAGE IN RECEIPT : " + bookedEvents[0].getImage_url());
-                dbRef1.child(usrID).child(compName.getText().toString()).setValue(bookedEvents[0]);
+                DateFormat df2 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                dbRef1.child(usrID).child(compName.getText().toString() + UUID.randomUUID().toString().substring(0,6)).setValue(bookedEvents[0]);
                 Register register1 = dataSnapshot.getValue(Register.class);
-                if(register1.getHostedby().equals("")){
+                Log.d("flashchatad","Host : " + register1.getHostedby());
 
+                if(register1.getHostedby()==(null)){
+                    Log.d("flashchatad","Host : " + register1.getHostedby());
                 }else{
                     DatabaseReference dbBook = FirebaseDatabase.getInstance().getReference("Unconfirmed").child(register1.getHostedby());//.child(eveName);
                     final RegistreEvent[] registreEvent = new RegistreEvent[1];
                     String usrName = prefs.getString(DISPLAY_NAME_KEY,null);
                     Log.d("whta","NAME : " + usrName);
                     BookedEvents2user bookedEventsq = new BookedEvents2user(compName.getText().toString(),eveName,image_url,Price.getText().toString(),uniqueID,usrName);
-                    dbBook.child(eveName).child("Bookings").child(usrID+"+" + compName.getText().toString()).setValue(bookedEventsq);
+                    dbBook.child(eveName).child("Bookings").child(usrID+"+" + compName.getText().toString()  + UUID.randomUUID().toString().substring(0,6)).setValue(bookedEventsq);
 
                 }
             }

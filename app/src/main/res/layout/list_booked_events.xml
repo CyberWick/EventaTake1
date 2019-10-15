@@ -53,4 +53,14 @@
         android:textSize="15dp"
         android:text="TextView"
         android:shadowDy="@android:integer/config_longAnimTime"/>
+
+    <TextView
+        android:id="@+id/bok_date"
+        android:layout_width="350dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/white"
+        android:layout_height="wrap_content"
+        android:textSize="15dp"
+        android:text="TextView"
+        android:shadowDy="@android:integer/config_longAnimTime"/>
 </LinearLayout>

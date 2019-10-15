@@ -12,7 +12,10 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class BookedEventsAdapter extends BaseAdapter {
@@ -52,7 +55,7 @@ public class BookedEventsAdapter extends BaseAdapter {
     public static class ViewHolder1{
 
         public TextView compName;
-        public TextView eveName;
+        public TextView eveName,date;
         public TextView price;
         public TextView transID;
         public ImageView image;
@@ -77,6 +80,7 @@ public class BookedEventsAdapter extends BaseAdapter {
         viewHolder.price = view.findViewById(R.id.bok_price);
         viewHolder.transID = view.findViewById(R.id.bok_transid);
         viewHolder.image = view.findViewById(R.id.bok_poster);
+        viewHolder.date = view.findViewById(R.id.bok_date);
         if(events.size()<=0){
             Log.d("flashchat","NO DATA");
 
@@ -89,6 +93,7 @@ public class BookedEventsAdapter extends BaseAdapter {
             viewHolder.price.setText(events.get(position).getPrice());
             Picasso.with(context).load(events.get(position).getImage_url()).into(viewHolder.image);
 
+            viewHolder.date.setText("Date : " + events.get(position).getDate());
         }
         return view;
     }

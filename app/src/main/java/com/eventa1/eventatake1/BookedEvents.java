@@ -1,16 +1,26 @@
 package com.eventa1.eventatake1;
 
 public class BookedEvents {
-    private String compName,eveName,image_url,price,tansID;
+    private String compName,eveName,image_url,price,tansID,date;
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
     public BookedEvents(){
 
     }
-    public BookedEvents(String compName, String eveName, String image_url, String price, String tansID) {
+    public BookedEvents(String compName, String eveName, String image_url, String price, String tansID,String date) {
         this.compName = compName;
         this.eveName = eveName;
         this.image_url = image_url;
         this.price = price;
         this.tansID = tansID;
+        this.date = date;
     }
 
     public String getCompName() {

@@ -161,6 +161,13 @@ public class HostedEventsFrag extends Fragment implements RegistreEventAsyn{
 
         });
     }
+    @Override
+    public void onResume() {
+
+        super.onResume();
+        Log.d("flashchatad","CALLING onResume");
+        getHostEvents();
+    }
 
 
     public void onFirebaseLoadSuccess(List<RegistreEvent> list) {

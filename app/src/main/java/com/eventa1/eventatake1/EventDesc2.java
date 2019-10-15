@@ -57,10 +57,6 @@ public class EventDesc2 extends AppCompatActivity implements IfFirebaseLoad_comp
         textDesc = findViewById(R.id.event_desc);
         expandableListView = findViewById(R.id.event_list);
         back_but = findViewById(R.id.back_but_event);
-        likeImage = findViewById(R.id.imageLike);
-
-        likeImage.setTag(R.mipmap.ic_favunlike);
-        //likeImage.setVisibility(View.INVISIBLE);
         ifFirebaseLoad = this;
         prefs = getSharedPreferences(CHAT_PREFS,MODE_PRIVATE);
         usrID = prefs.getString(USER_ID,null);
@@ -165,75 +161,8 @@ public class EventDesc2 extends AppCompatActivity implements IfFirebaseLoad_comp
     public void onFirebaseLoadFail(String message) {
         Log.d("flashchat",message);
     }
-    public void AddtoFav(View view){
-//        Drawable unlikeimg = getDrawable(R.mipmap.ic_favunlike);
-        //switch(view.get)
-        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("Favourites");
-        Bundle bundle = getIntent().getExtras();
-        String eveName = bundle.getString("eventName");
-        //String usrID = prefs.getString(USER_ID,null);
-        int tag = (int) likeImage.getTag();
-        if(tag == R.mipmap.ic_favunlike){
-            Log.d("flashchat","ADDING to FAV");
-            likeImage.setImageResource(R.mipmap.ic_favlike);
-            likeImage.setTag(R.mipmap.ic_favlike);
-            Log.d("flashchat","USR : " + usrID +"  eveName : " +eveName);
-
-            dbRef.child(usrID).child("EventName").child(eveName).setValue(eveName);
-            //dbRef.setValue(eveName);
-            Set<String> favEvents = new ArraySet<>();
-            favEvents = prefs.getStringSet(FAVEVENTS_LIST,null);
-            favEvents.add(eveName);
-            prefs.edit().putStringSet(FAVEVENTS_LIST,favEvents).apply();
-        }
-        else {
-            Log.d("flashchat","ADDING to UNFAV");
-            likeImage.setImageResource(R.mipmap.ic_favunlike);
-            likeImage.setTag(R.mipmap.ic_favunlike);
-            dbRef.child(usrID).child("EventName").child(eveName).removeValue();
-            Set<String> favEvents = new ArraySet<>();
-            favEvents = prefs.getStringSet(FAVEVENTS_LIST,null);
-            for(String temp : favEvents){
-                if(temp.equals(eveName)){
-                    favEvents.remove(temp);
-                    break;
-                }
-            }
-            Log.d("flashchat","SIZE AFTER REMOVE : " + favEvents.size());
-            prefs.edit().putStringSet(FAVEVENTS_LIST,favEvents).apply();
-
-        }
-    }
 
 
 
-    private Boolean CheckFav(){
-        Set<String> favEvents;// = new ArraySet<>();
-        favEvents = prefs.getStringSet(FAVEVENTS_LIST,null);
-        if(favEvents==null) {
-            Log.d("flashchat","NO EVENTS ADDED to FAVS");
-            return false;
-        } else {
-            int flag =0;
-            Bundle bundle = getIntent().getExtras();
-            final String eveName = bundle.getString("eventName");
 
-            for(String tempEve : favEvents) {
-                if(tempEve.equals(eveName)){
-                    flag=1;
-                    break;
-                }
-
-            }
-            if(flag==1){
-                Log.d("flashchat","was Booked Already");
-                likeImage.setImageResource(R.mipmap.ic_favlike);
-                likeImage.setTag(R.mipmap.ic_favlike);
-
-                return true;
-            }
-        }
-        Log.d("flashchat","New EVENT");
-        return false;
-    }
 }

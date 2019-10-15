@@ -50,7 +50,7 @@ public class BookListAdapter extends BaseAdapter {
     }
     public static class ViewHolder{
 
-        public TextView text,user,pos;
+        public TextView text,user,pos,trans;
 
     }
     @Override
@@ -67,6 +67,7 @@ public class BookListAdapter extends BaseAdapter {
         viewHolder.text = view.findViewById(R.id.eve);
         viewHolder.user = view.findViewById(R.id.usr);
         viewHolder.pos = view.findViewById(R.id.posi);
+        viewHolder.trans = view.findViewById(R.id.transID);
        // viewHolder.image = view.findViewById(R.id.eventImage);
         if(events.size()<=0){
             Log.d("flashchatfava","NO DATA");
@@ -74,9 +75,11 @@ public class BookListAdapter extends BaseAdapter {
         }
         else {
             Log.d("flashchatfava", "FOUND"+viewHolder.text.getText().toString());
-            viewHolder.text.setText(events.get(position).getCompName());
+            String temps[] = events.get(position).getCompName().split(":");
+            viewHolder.text.setText(temps[1]);
             viewHolder.user.setText(events.get(position).getUsernname());
             viewHolder.pos.setText(Integer.toString(position+1));
+            viewHolder.trans.setText(events.get(position).getTansID());
 //            viewHolder.pos.setText(Integer.toString(position+1));
           //  Picasso.with(context).load(events.get(position).getImage_url()).into(viewHolder.image);
         }
