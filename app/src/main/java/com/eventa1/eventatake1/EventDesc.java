@@ -35,7 +35,7 @@ public class EventDesc extends AppCompatActivity implements IfFirebaseLoad_comp 
     private ExpandableListView expandableListView;
     private ImageView imageView;
     private ImageView likeImage;
-    private TextView textName;
+    private TextView textName,textDate,textEnd;
     private TextView textLoc;
     private TextView textDesc;
     private IfFirebaseLoad_comp ifFirebaseLoad;
@@ -53,6 +53,8 @@ public class EventDesc extends AppCompatActivity implements IfFirebaseLoad_comp 
         textName = findViewById(R.id.event_name);
         textLoc = findViewById(R.id.event_location);
         textDesc = findViewById(R.id.event_desc);
+        textDate=findViewById(R.id.event_date2);
+        textEnd=findViewById(R.id.event_end2);
         expandableListView = findViewById(R.id.event_list);
         back_but = findViewById(R.id.back_but_event);
         likeImage = findViewById(R.id.imageLike);
@@ -90,6 +92,8 @@ public class EventDesc extends AppCompatActivity implements IfFirebaseLoad_comp 
                     textDesc.setText(register_event.getDes());
                     textLoc.setText(register_event.getCol());
                     textName.setText(register_event.getEve());
+                    textDate.setText(register_event.getDate());
+                    textEnd.setText(register_event.getEndDate());
                     dataSnapshot = dataSnapshot.child(eveName).child("Compete");
                     for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
 //                        Log.d("flashchat", postSnapshot.getKey());

@@ -19,27 +19,34 @@
             android:id="@+id/posi"
             android:layout_width="30dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.01" />
+            android:layout_weight="0.01"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/usr"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.33" />
+            android:layout_weight="0.33"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/eve"
             android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="0.33"
-            android:layout_height="match_parent" />
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/transID"
-            android:layout_weight="0.33"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
 
-            android:text="TextView"
-            android:layout_width="0dp" />
+            android:layout_weight="0.33"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold" />
 
     </LinearLayout>
 
