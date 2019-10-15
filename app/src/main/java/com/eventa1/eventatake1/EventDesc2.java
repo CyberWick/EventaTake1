@@ -158,7 +158,7 @@ public class EventDesc2 extends AppCompatActivity implements IfFirebaseLoad_comp
 
     @Override
     public void onFirebaseLoadSuccess(List<String> compList, HashMap<String, Compete> hashMap,String status) {
-        expandableListView.setAdapter(new ExpandableAdapter(this,compList,hashMap,register_event.getEve(),status));
+        expandableListView.setAdapter(new ExpandableAdapter(this,compList,hashMap,register_event.getEve(),"NO",register_event.getEndDate()));
     }
 
     @Override

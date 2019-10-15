@@ -24,6 +24,10 @@ import com.google.firebase.database.ValueEventListener;
 import com.paytm.pgsdk.PaytmPGService;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -32,15 +36,16 @@ public class ExpandableAdapter extends BaseExpandableListAdapter {
     private List<String> expandableListTitle;
     private HashMap<String, Compete> expandableListDetail;
     private String status;
-    private String eveName;
+    private String eveName,endDate;
     Button bookie;
 
-    public ExpandableAdapter(Context context, List<String> expandableListTitle, HashMap<String, Compete> expandableListDetail,String eveName,String status) {
+    public ExpandableAdapter(Context context, List<String> expandableListTitle, HashMap<String, Compete> expandableListDetail,String eveName,String status,String endDate) {
         this.context = context;
         this.expandableListTitle = expandableListTitle;
         this.expandableListDetail = expandableListDetail;
         this.eveName = eveName;
         this.status = status;
+        this.endDate = endDate;
     }
 
     @Override
@@ -112,7 +117,21 @@ public class ExpandableAdapter extends BaseExpandableListAdapter {
 
         textPrice.setText("Price : " + Integer.toString(temp.getPric()));
         bookie=convertView.findViewById(R.id.bookie);
-        if(status.equals("YES")) {
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = new Date();
+        Date date1 = null;
+        try {
+            date1=new SimpleDateFormat("dd/MM/yyyy").parse(endDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        // System.out.println(df.format(date));
+        Log.d("flashchatad","TODAY's DATE : " + df.format(date));
+        if(date.compareTo(date1)>0){
+            Log.d("flashchatad","Date AHEAD");
+            bookie.setText("EVENT IS OVER" );
+        }
+        else if(status.equals("YES")) {
             bookie.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -144,7 +163,7 @@ public class ExpandableAdapter extends BaseExpandableListAdapter {
                 }
             });
         }else {
-            bookie.setText("CAN'T BOOK UNCONFIRMED EVENTS" );
+            bookie.setText("CAN'T BOOK EVENTS FROM HERE" );
         }
         return convertView;
     }
