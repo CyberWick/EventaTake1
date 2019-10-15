@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.collection.ArraySet;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -42,6 +43,7 @@ public class EventDesc2 extends AppCompatActivity implements IfFirebaseLoad_comp
     private Register register_event;
     private List<String> compList = new ArrayList<>();
     private Button back_but;
+    private Button checkBook;
     private SharedPreferences prefs;
     private String usrID;
     private HashMap<String, Compete> compMap = new HashMap<>();
@@ -65,6 +67,16 @@ public class EventDesc2 extends AppCompatActivity implements IfFirebaseLoad_comp
 
 //        Log.d("flashchat","IN EVENTDESC USRID : " + usrID);
         getData();
+        checkBook = findViewById(R.id.checkBook);
+        checkBook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent b=new Intent(EventDesc2.this,DispBook.class);
+                b.putExtra("EventName",textName.getText().toString());
+                startActivity(b);
+
+            }
+        });
         back_but.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

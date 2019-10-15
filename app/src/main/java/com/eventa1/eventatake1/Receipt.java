@@ -78,25 +78,6 @@ public class Receipt extends AppCompatActivity {
                     BookedEvents2user bookedEventsq = new BookedEvents2user(compName.getText().toString(),eveName,image_url,Price.getText().toString(),uniqueID,usrName);
                     dbBook.child(eveName).child("Bookings").child(usrID+"+" + compName.getText().toString()).setValue(bookedEventsq);
 
-//                    dbBook.addValueEventListener(new ValueEventListener() {
-//                        @Override
-//                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                            Log.d("whta",dataSnapshot.getKey() + "   " + eveName);
-//                            //registreEvent[0] = dataSnapshot.child(eveName).getValue(RegistreEvent.class);
-//                            List<BookedEvents2user> bookList = registreEvent[0].getBookedEvents2users();
-//                            if(bookList==null)
-//                                bookList = new ArrayList<>();
-//                            //bookList.add(bookedEvents);
-//                            //registreEvent[0].setBookedEvents2users(bookList);
-//
-//                        }
-//
-//                        @Override
-//                        public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                        }
-//                    });
-//                    dbBook.setValue(registreEvent[0]);
                 }
             }
 
