@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -18,9 +19,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import static com.eventa1.eventatake1.MainActivity.CHAT_PREFS;
+import static com.eventa1.eventatake1.MainActivity.DISPLAY_NAME_KEY;
 import static com.eventa1.eventatake1.MainActivity.USER_ID;
 
 public class Receipt extends AppCompatActivity {
@@ -51,18 +55,49 @@ public class Receipt extends AppCompatActivity {
         dbRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Register register = dataSnapshot.getValue(Register.class);
+                final Register register = dataSnapshot.getValue(Register.class);
                 Log.d("flachchatss","LOADING IMAGE");
                 image_url = register.getImage_url();
                 Log.d("flachchatss","IMAGE IN onDATACHANGE : " + image_url);
                 Picasso.with(Receipt.this).load(register.getImage_url()).into(evePoster);
                 DatabaseReference dbRef1 = FirebaseDatabase.getInstance().getReference("BookedEvents");
-                SharedPreferences prefs = getSharedPreferences(CHAT_PREFS,MODE_PRIVATE);
+                final SharedPreferences prefs = getSharedPreferences(CHAT_PREFS,MODE_PRIVATE);
                 String usrID = prefs.getString(USER_ID,null);
-                String uniqueID = UUID.randomUUID().toString();
-                BookedEvents bookedEvents = new BookedEvents(compName.getText().toString(),eveName,image_url,Price.getText().toString(),uniqueID);
-                Log.d("flachchatss","IMAGE IN RECEIPT : " + bookedEvents.getImage_url());
-                dbRef1.child(usrID).child(compName.getText().toString()).setValue(bookedEvents);
+                final String uniqueID = UUID.randomUUID().toString();
+                final BookedEvents[] bookedEvents = {new BookedEvents(compName.getText().toString(), eveName, image_url, Price.getText().toString(), uniqueID)};
+                Log.d("flachchatss","IMAGE IN RECEIPT : " + bookedEvents[0].getImage_url());
+                dbRef1.child(usrID).child(compName.getText().toString()).setValue(bookedEvents[0]);
+                Register register1 = dataSnapshot.getValue(Register.class);
+                if(register1.getHostedby().equals("")){
+
+                }else{
+                    DatabaseReference dbBook = FirebaseDatabase.getInstance().getReference("Unconfirmed").child(register1.getHostedby());//.child(eveName);
+                    final RegistreEvent[] registreEvent = new RegistreEvent[1];
+                    String usrName = prefs.getString(DISPLAY_NAME_KEY,null);
+                    Log.d("whta","NAME : " + usrName);
+                    BookedEvents2user bookedEventsq = new BookedEvents2user(compName.getText().toString(),eveName,image_url,Price.getText().toString(),uniqueID,usrName);
+                    dbBook.child(eveName).child("Bookings").child(usrID+"+" + compName.getText().toString()).setValue(bookedEventsq);
+
+//                    dbBook.addValueEventListener(new ValueEventListener() {
+//                        @Override
+//                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                            Log.d("whta",dataSnapshot.getKey() + "   " + eveName);
+//                            //registreEvent[0] = dataSnapshot.child(eveName).getValue(RegistreEvent.class);
+//                            List<BookedEvents2user> bookList = registreEvent[0].getBookedEvents2users();
+//                            if(bookList==null)
+//                                bookList = new ArrayList<>();
+//                            //bookList.add(bookedEvents);
+//                            //registreEvent[0].setBookedEvents2users(bookList);
+//
+//                        }
+//
+//                        @Override
+//                        public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                        }
+//                    });
+//                    dbBook.setValue(registreEvent[0]);
+                }
             }
 
             @Override

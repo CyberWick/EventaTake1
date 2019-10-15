@@ -14,11 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HostEventsAdapter extends BaseAdapter {
-    private List<Register> regList = new ArrayList<>();
+    private List<RegistreEvent> regList = new ArrayList<>();
     private LayoutInflater layoutInflater=null;
     private Context context;
 
-    public HostEventsAdapter(List<Register> regList, Context context) {
+    public HostEventsAdapter(List<RegistreEvent> regList, Context context) {
         this.regList = regList;
         this.context = context;
         Log.d("flashchat","CONTECT : " +context.toString());
@@ -88,7 +88,7 @@ public class HostEventsAdapter extends BaseAdapter {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent1 = new Intent(context, EventDesc.class);
+                Intent intent1 = new Intent(context, EventDesc2.class);
                 intent1.putExtra("eventName",regList.get(position).getEve());
                 //intent1.putExtr;
                 Log.d("flashchat","Going to event desc with " + regList.get(position).getEve());

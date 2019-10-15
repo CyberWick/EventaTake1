@@ -54,6 +54,7 @@ public class regEvent extends AppCompatActivity {
     TextView tvw;
     CheckBox tech,cultural,workshops,seminar,sports,gaming;
     Button addevent,upload,choose;
+    private String image_url;
     ImageView imgView;
     private Uri filePath;
     private final int PICK_IMAGE_REQUEST = 71;
@@ -111,6 +112,7 @@ public class regEvent extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(Uri uri) {
                                     Log.d("PATH",uri.toString());
+                                    image_url = uri.toString();
                                     register.setImage_url(uri.toString());
                                 }
                             });
@@ -279,37 +281,43 @@ public class regEvent extends AppCompatActivity {
                 if(tech.isChecked()){
                     //reference.child("1").setValue("Technical");
                     mList.add("Technical");
-                    //ref1.child(register.getEve()).setValue(eve1);
+                    ref1.child(register.getEve()).setValue(eve1);
                 }
                 if(cultural.isChecked()){
                     mList.add("Cultural");
-                    //ref2.child(register.getEve()).setValue(eve1);
+                    ref2.child(register.getEve()).setValue(eve1);
                 }
                 if(workshops.isChecked())
                 {
                     mList.add("Workshops");
-                    //ref3.child(register.getEve()).setValue(eve1);
+                    ref3.child(register.getEve()).setValue(eve1);
                 }
                 if(seminar.isChecked())
                 {
                     mList.add("Seminar");
-                    //ref4.child(register.getEve()).setValue(eve1);
+                    ref4.child(register.getEve()).setValue(eve1);
                 }
                 if(gaming.isChecked())
                 {
                     mList.add("Gaming");
-                    //ref5.child(register.getEve()).setValue(eve1);
+                    ref5.child(register.getEve()).setValue(eve1);
                 }
                 if(sports.isChecked())
                 {
                     mList.add("Sports");
-                    //ref6.child(register.getEve()).setValue(eve1);
+                    ref6.child(register.getEve()).setValue(eve1);
                 }
                 register.setmList(mList);
                 if(!col1.isEmpty() && !eve1.isEmpty() && !de.isEmpty() && !con.isEmpty() && !da.isEmpty() && !ed.isEmpty() && (sports.isChecked() || gaming.isChecked() || seminar.isChecked() || workshops.isChecked() || tech.isChecked() || cultural.isChecked()))
                 {
 
-                    reference.child(usrID).child(register.getEve()).setValue(register);
+
+                    List<BookedEvents2user> bookList = new ArrayList<>();
+                    register.setHostedby(usrID);
+                    RegistreEvent registreEvent = new RegistreEvent(college.getText().toString(),eventname.getText().toString(),descrip.getText().toString(),null,image_url,contact.getText().toString(),date.getText().toString(),enddate.getText().toString(),mList,bookList,usrID);
+                    DatabaseReference dbref = FirebaseDatabase.getInstance().getReference().child("Register");
+                    reference.child(usrID).child(register.getEve()).setValue(registreEvent);
+                    dbref.child(register.getEve()).setValue(register);
                     Intent k=new Intent(regEvent.this,Competition.class);
                     k.putExtra("eventnam",  eventname.getText().toString());
                     startActivity(k);

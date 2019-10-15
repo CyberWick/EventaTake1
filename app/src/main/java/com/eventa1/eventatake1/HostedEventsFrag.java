@@ -31,12 +31,12 @@ import static com.eventa1.eventatake1.MainActivity.FAVEVENTS_LIST;
 import static com.eventa1.eventatake1.MainActivity.USER_ID;
 
 
-public class HostedEventsFrag extends Fragment implements HostFirebase{
+public class HostedEventsFrag extends Fragment implements RegistreEventAsyn{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private HostFirebase mHostFire;
+    private RegistreEventAsyn mHostFire;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -125,7 +125,7 @@ public class HostedEventsFrag extends Fragment implements HostFirebase{
 
         DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("Unconfirmed");
         dbRef.addValueEventListener(new ValueEventListener() {
-            List<Register> hostList= new ArrayList<>();
+            List<RegistreEvent> hostList= new ArrayList<>();
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Log.d("flashchat", "Searching for EVENTS");
@@ -134,10 +134,10 @@ public class HostedEventsFrag extends Fragment implements HostFirebase{
                     for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                         Log.d("flashchatad", "USER"+postSnapshot.getKey());
 
-                       dataSnapshot = dataSnapshot.child(usrID);//getValue(Register.class);
+                       dataSnapshot = dataSnapshot.child(usrID);//getValue(RegistreEvent.class);
 
                         for (DataSnapshot postSnapshot1 : dataSnapshot.getChildren()) {
-                            Register tempo = dataSnapshot.child(postSnapshot1.getKey()).getValue(Register.class);
+                            RegistreEvent tempo = dataSnapshot.child(postSnapshot1.getKey()).getValue(RegistreEvent.class);
                             hostList.add(tempo);
 
                             Log.d("flashchatad", "event"+postSnapshot1.getKey() + "    " + tempo.getCol());
@@ -148,7 +148,7 @@ public class HostedEventsFrag extends Fragment implements HostFirebase{
 
                 }
                 else {
-                   List<Register> HostList1 = new ArrayList<>();
+                   List<RegistreEvent> HostList1 = new ArrayList<>();
                     Log.d("flashchatad","NOT IN IF SIZE OF FAVEVELIST : " + HostList1.size());
                     mHostFire.onFirebaseLoadSuccess(HostList1);
             }
@@ -163,7 +163,7 @@ public class HostedEventsFrag extends Fragment implements HostFirebase{
     }
 
 
-    public void onFirebaseLoadSuccess(List<Register> list) {
+    public void onFirebaseLoadSuccess(List<RegistreEvent> list) {
         Log.d("flashchatad","SENDING RegLIST " + list);
 
         if(list.size()>0){

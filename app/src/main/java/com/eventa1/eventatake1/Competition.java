@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -69,7 +70,7 @@ public class Competition extends AppCompatActivity implements AdapterView.OnItem
         categories.setAdapter(dataAdapter);
         compete=new Compete();
         reference1= FirebaseDatabase.getInstance().getReference().child("Unconfirmed").child(usrID);
-
+        DatabaseReference dbref = FirebaseDatabase.getInstance().getReference().child("Register");
         another.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -78,7 +79,8 @@ public class Competition extends AppCompatActivity implements AdapterView.OnItem
                 compete.setPric(Integer.parseInt(price.getText().toString().trim()));
                 compete.setText(categories.getSelectedItem().toString());
                 reference1.child(eventnam).child("Compete").child(compete.getEvename2()).setValue(compete);
-
+                DatabaseReference dbref = FirebaseDatabase.getInstance().getReference().child("Register");
+                dbref.child(eventnam).child("Compete").child(compete.getEvename2()).setValue(compete);
                 Intent k=new Intent(Competition.this, Competition.class);
                 k.putExtra("eventnam",eventnam);
                 startActivity(k);

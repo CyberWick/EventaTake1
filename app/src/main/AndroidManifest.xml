@@ -25,6 +25,7 @@
         <activity android:name=".regEvent" />
         <activity android:name=".Profile" />
         <activity android:name=".EventDesc" />
+        <activity android:name=".EventDesc2" />
         <activity android:name=".YourEvents" />
         <activity android:name=".Search" />
         <activity android:name=".Receipt" />
