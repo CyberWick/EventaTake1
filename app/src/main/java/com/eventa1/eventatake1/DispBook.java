@@ -6,8 +6,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Adapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -25,7 +27,7 @@ public class DispBook extends AppCompatActivity implements Book2userLoad {
 
     private ListView boklist;
     private Book2userLoad load;
-
+    private TextView nomsg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +36,7 @@ public class DispBook extends AppCompatActivity implements Book2userLoad {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_disp_book);
         boklist=findViewById(R.id.booklist);
+        nomsg = findViewById(R.id.nomsg_d2);
         load=this;
 
         getList();
@@ -82,7 +85,16 @@ public class DispBook extends AppCompatActivity implements Book2userLoad {
     @Override
     public void onFirebaseLoadSuccess(List<BookedEvents2user> list) {
         Log.d("flashchatad","SIZE OF LIST : " + list.toString());
-        boklist.setAdapter(new BookListAdapter(list,this));
+        if(list.size()<=0){
+            boklist.setVisibility(View.INVISIBLE);
+            nomsg.setVisibility(View.VISIBLE);
+            nomsg.setText("No Bookings done yet!");
+        }else{
+            boklist.setVisibility(View.VISIBLE);
+            boklist.setAdapter(new BookListAdapter(list,this));
+            nomsg.setVisibility(View.INVISIBLE);
+        }
+
     }
 
     @Override

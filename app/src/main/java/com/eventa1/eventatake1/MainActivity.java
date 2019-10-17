@@ -252,7 +252,7 @@ public class MainActivity extends AppCompatActivity {
         Set<String> favEvents = new ArraySet<>();
         prefs.edit().putStringSet(FAVEVENTS_LIST,favEvents);
         Log.d("flashchat","DONE SREF");
-        UserInfo1 usr1 = new UserInfo1(displayName,phnno,dob);
+        UserInfo1 usr1 = new UserInfo1(displayName,dob,phnno);
         Log.d("flashchat","STARTING TO STORE IN DB");
         FirebaseUser usr = mAuth.getCurrentUser();
 

@@ -2,6 +2,7 @@ package com.eventa1.eventatake1;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.collection.ArraySet;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -17,7 +18,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
+import java.util.Set;
+
 import static com.eventa1.eventatake1.MainActivity.CHAT_PREFS;
+import static com.eventa1.eventatake1.MainActivity.FAVEVENTS_LIST;
 import static com.eventa1.eventatake1.MainActivity.LOG_CHECK_KEY;
 
 public class Profile extends AppCompatActivity {
@@ -53,6 +57,8 @@ public class Profile extends AppCompatActivity {
                 FirebaseAuth.getInstance().signOut();
                 SharedPreferences prefs = getSharedPreferences(CHAT_PREFS,MODE_PRIVATE);
                 prefs.edit().putBoolean(LOG_CHECK_KEY,false).apply();
+                Set<String> favEvents = new ArraySet<>();
+                prefs.edit().putStringSet(FAVEVENTS_LIST,favEvents);
                 Intent intent = new Intent(Profile.this, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);//makesure user cant go back
                 startActivity(intent);
