@@ -17,7 +17,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/event_location"
-        app:layout_constraintVertical_bias="0.063" />
+        app:layout_constraintVertical_bias="0.142" />
 
     <TextView
         android:id="@+id/event_end"
@@ -27,10 +27,10 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.653"
+        app:layout_constraintHorizontal_bias="0.66"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/event_location"
-        app:layout_constraintVertical_bias="0.057" />
+        app:layout_constraintVertical_bias="0.142" />
 
     <TextView
         android:id="@+id/event_end2"
@@ -39,10 +39,10 @@
         android:text="TextView"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.995"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/event_location"
-        app:layout_constraintVertical_bias="0.063" />
+        app:layout_constraintVertical_bias="0.142" />
 
     <TextView
         android:id="@+id/event_date2"
@@ -51,10 +51,10 @@
         android:text="TextView"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.323"
+        app:layout_constraintHorizontal_bias="0.33"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/event_location"
-        app:layout_constraintVertical_bias="0.063" />
+        app:layout_constraintVertical_bias="0.142" />
 
     <ImageView
         android:id="@+id/event_poster"
@@ -127,7 +127,7 @@
         android:id="@+id/event_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="408dp"
+        android:layout_marginTop="435dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"

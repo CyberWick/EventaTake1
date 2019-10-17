@@ -10,6 +10,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,6 +77,7 @@ public class HostEventsAdapter extends BaseAdapter {
 //        }
         viewHolder = new ViewHolder();
         viewHolder.text = view.findViewById(R.id.eventName);
+        viewHolder.image = view.findViewById(R.id.eventImage);
         if(regList.size()<=0){
             Log.d("flashchat","NO DATA");
 
@@ -83,6 +86,7 @@ public class HostEventsAdapter extends BaseAdapter {
             Log.d("flashchat", "FOUND"+viewHolder.text.getText().toString());
             Log.d("flashchatad","RegList : " + regList.get(position));
             viewHolder.text.setText(regList.get(position).getEve());
+            Picasso.with(context).load(regList.get(position).getImage_url()).into(viewHolder.image);
 
         }
         view.setOnClickListener(new View.OnClickListener() {

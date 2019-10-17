@@ -10,6 +10,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,6 +76,8 @@ public class CustomAdapter extends BaseAdapter {
         }
         viewHolder = new FavEventsAdapter.ViewHolder();
         viewHolder.text = view.findViewById(R.id.eventName);
+        viewHolder.image=view.findViewById(R.id.eventImage);
+
         if(registers.size()<=0){
             Log.d("flashchat","NO DATA");
 
@@ -81,7 +85,7 @@ public class CustomAdapter extends BaseAdapter {
         else {
             Log.d("flashchat", "FOUND"+viewHolder.text.getText().toString());
             viewHolder.text.setText(registers.get(position).getEve());
-
+            Picasso.with(context).load(registers.get(position).getImage_url()).into(viewHolder.image);
         }
         view.setOnClickListener(new View.OnClickListener() {
             @Override
